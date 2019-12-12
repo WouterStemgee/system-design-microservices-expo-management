@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import be.ugent.sysdes2.cloakroom.domain.CloakroomItem;
-import be.ugent.sysdes2.cloakroom.persistence.CloakroomRepository;
+import be.ugent.sysdes2.cloakroom.domain.CloakroomSpace;
+import be.ugent.sysdes2.cloakroom.persistence.CloakroomItemRepository;
+import be.ugent.sysdes2.cloakroom.persistence.CloakroomSpaceRepository;
 
 @SpringBootApplication
 public class CloakroomApplication {
@@ -20,15 +22,17 @@ public class CloakroomApplication {
 	}
 
 	@Bean
-	CommandLineRunner testRepository(CloakroomRepository cloakroomRepository)
+	CommandLineRunner testRepository(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository)
 	{
 		return (args) -> {
-			cloakroomRepository.save(new CloakroomItem(1,1));
-			cloakroomRepository.save(new CloakroomItem(2,1));
-			cloakroomRepository.save(new CloakroomItem(3,2));
-			cloakroomRepository.save(new CloakroomItem(4,2));
-			cloakroomRepository.save(new CloakroomItem(5,8));
-			cloakroomRepository.findByBadgeId(1).forEach(System.out::println);
+			// cloakroomItemRepository.save(new CloakroomItem(1,1));
+			// cloakroomItemRepository.save(new CloakroomItem(2,1));
+			// cloakroomItemRepository.save(new CloakroomItem(3,2));
+			// cloakroomItemRepository.save(new CloakroomItem(4,2));
+			// cloakroomItemRepository.save(new CloakroomItem(5,8));
+
+			//cloakroomSpaceRepository.save(new CloakroomSpace(100,100,1.5f));
+
 		};
 	}
 }

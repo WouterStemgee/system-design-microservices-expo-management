@@ -1,13 +1,19 @@
 package be.ugent.sysdes2.cloakroom.persistence;
 
-import java.util.List;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import be.ugent.sysdes2.cloakroom.domain.CloakroomItem;
 
+public class CloakroomRepository {
+    @Autowired
+    CloakroomItemRepository cloakroomItemRepository;
 
-public interface CloakroomRepository extends MongoRepository<CloakroomItem, String> {
+    @Autowired
+    CloakroomSpaceRepository cloakroomSpaceRepository;
 
-  public List<CloakroomItem> findByBadgeId(int BadgeId);
+    public CloakroomRepository(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository) {
+        this.cloakroomItemRepository = cloakroomItemRepository;
+        this.cloakroomSpaceRepository = cloakroomSpaceRepository;
+    }
 }
+
