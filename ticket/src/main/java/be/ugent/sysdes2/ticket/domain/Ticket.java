@@ -45,7 +45,7 @@ public class Ticket {
         return status;
     }
 
-    public static enum Status {
-        VALIDATED, UNVALIDATED
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

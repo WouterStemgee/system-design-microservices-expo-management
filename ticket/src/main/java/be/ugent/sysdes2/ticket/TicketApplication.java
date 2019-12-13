@@ -35,15 +35,15 @@ public class TicketApplication {
 		};
 	}
 
-	@Bean
+	/*@Bean
 	public CommandLineRunner checkRepositoryMethods(TicketRepository ticketRepository) {
 		return (args) ->{
 			logger.info("Checking repository methods:");
 			logger.info("Saving ticket...");
-			Ticket ticket = new Ticket(0,1,"Thomas Devriese","UNVALIDATED");
+			Ticket ticket = new Ticket(0,1,"Lisa Eggermont","UNVALIDATED");
 			ticketRepository.save(ticket);
 			ticketRepository.findAll().forEach((t) -> logger.info(t.getName()));
 		};
-	}
+	}*/
 
 }
