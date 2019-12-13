@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CloakroomSpace {
 
     @Id
-    private final int _id = 1;
+    private int _id = 1;
     private int availableSpaces;
     private int totalSpaces;
     private float pricePerSpace;
@@ -23,6 +23,19 @@ public class CloakroomSpace {
 
     public int getAvailableSpaces() {
         return availableSpaces;
+    }
+
+    public void decreaseAvailableSpaces() {
+        if(availableSpaces > 0) {
+            availableSpaces--;
+        }
+    }
+
+    public void increaseAvailableSpaces() {
+        if(availableSpaces < totalSpaces) {
+            availableSpaces++;
+        }
+        
     }
 
     public int getTotalSpaces() {

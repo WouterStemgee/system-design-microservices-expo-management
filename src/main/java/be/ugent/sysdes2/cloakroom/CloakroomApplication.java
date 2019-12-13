@@ -33,6 +33,8 @@ public class CloakroomApplication {
 
 			//cloakroomSpaceRepository.save(new CloakroomSpace(100,100,1.5f));
 
+			CloakroomSpace cs = cloakroomSpaceRepository.getCloakroomSpace();
+			logger.info("{}/{} {}", cs.getAvailableSpaces(), cs.getTotalSpaces(), cs.getPricePerSpace());
 		};
 	}
 }

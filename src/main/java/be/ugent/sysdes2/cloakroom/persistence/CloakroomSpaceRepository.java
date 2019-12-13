@@ -11,13 +11,13 @@ public interface CloakroomSpaceRepository extends MongoRepository<CloakroomSpace
     @Query(value="{ '_id' : 1 }")
     public CloakroomSpace getCloakroomSpace();
 
-    @Query(value="{ '_id' : 1 }", fields="{ 'availableSpace' : 1}")
-    public int getAvailableSpace();
+    // @Query(value="{ '_id' : 1 }", fields="{ 'availableSpace' : 1}")
+    // public int getAvailableSpace();
 
-    @Query(value="{ '_id' : 1 }", fields="{ 'totalSpaces' : 1}")
-    public int getTotalSpaces();
+    // @Query(value="{ '_id' : 1 }", fields="{ 'totalSpaces' : 1}")
+    // public int getTotalSpaces();
 
-    @Query(value="{ '_id' : 1 }", fields="{ 'pricePerSpace' : 1}")
-    public int getPricePerSpace();
+    // @Query(value="{ '_id' : 1 }", fields="{ 'pricePerSpace' : 1}")
+    // public float getPricePerSpace();
 
 }
