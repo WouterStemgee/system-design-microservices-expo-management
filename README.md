@@ -6,7 +6,7 @@
 ## Spring Boot
 [Spring Initializr](https://start.spring.io/)
 
-## API Endpoints
+## All API Endpoints (niet enkel Gateway API endpoints)
 - getProgress()
    - GET: /progress/{eventId}
 - updateProgress()
