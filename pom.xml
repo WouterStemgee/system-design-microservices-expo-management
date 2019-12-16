@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.ugent.sysdes2</groupId>
-	<artifactId>reservation</artifactId>
+	<artifactId>event-reservation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>reservation</name>
+	<name>event-reservation</name>
 	<description>Reservation service</description>
 
 	<properties>
