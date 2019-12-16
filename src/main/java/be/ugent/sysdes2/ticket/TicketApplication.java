@@ -12,8 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
 @EnableBinding(Channels.class)
+@SpringBootApplication
 public class TicketApplication {
 
 	private static Logger logger = LoggerFactory.getLogger(TicketApplication.class);
