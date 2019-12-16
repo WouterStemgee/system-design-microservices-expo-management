@@ -54,12 +54,8 @@ services:
       context: ../parking
     links:
       - support-parkingdb
-      - support-kafka
-      - support-zookeeper
     depends_on:
       - support-parkingdb
-      - support-kafka
-      - support-zookeeper
 
   service-api-gateway:
     build: 
