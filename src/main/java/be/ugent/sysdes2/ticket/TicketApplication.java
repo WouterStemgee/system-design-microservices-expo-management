@@ -12,8 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
-@EnableBinding(Channels.class)
 @SpringBootApplication
+@EnableBinding(Channels.class)
 public class TicketApplication {
 
 	private static Logger logger = LoggerFactory.getLogger(TicketApplication.class);
@@ -39,7 +39,7 @@ public class TicketApplication {
 		};
 	}
 
-	/*@Bean
+	@Bean
 	public CommandLineRunner checkRepositoryMethods(TicketRepository ticketRepository) {
 		return (args) ->{
 			logger.info("Saving ticket...");
@@ -47,7 +47,7 @@ public class TicketApplication {
 			ticketRepository.save(ticket);
 			ticketRepository.findAll().forEach((t) -> logger.info(t.getName()));
 		};
-	}*/
+	}
 
 	@Bean
 	public CommandLineRunner testMessagingGateway(TicketRepository ticketRepository, MessageGateway gateway) {

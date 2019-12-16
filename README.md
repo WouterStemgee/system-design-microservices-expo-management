@@ -1,2 +1,0 @@
-# ticket
-Ticket service
