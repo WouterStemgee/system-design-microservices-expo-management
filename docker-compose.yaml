@@ -1,0 +1,76 @@
+version: "3"
+services:
+# ------------Support services-------------
+  support-zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  support-kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - support-zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=support-zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://support-kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  support-parkingdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Parking
+  
+  support-eventdb:
+    image: mongo
+
+# -------------Main services---------------
+
+  service-event-reservation:
+    build: 
+      context: ../event-reservation
+    links:
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-kafka
+      - support-zookeeper
+
+  service-event-management:
+    build: 
+      context: ../event-management
+    links:
+      - support-eventdb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-eventdb
+      - support-kafka
+      - support-zookeeper
+ 
+  service-parking:
+    build: 
+      context: ../parking
+    links:
+      - support-parkingdb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-parkingdb
+      - support-kafka
+      - support-zookeeper
+
+  service-api-gateway:
+    build: 
+      context: ../api-gateway
+    links:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    depends_on:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    ports:
+      - 8080:8080
