@@ -1,4 +1,4 @@
-package be.ugent.sysdes2.ticket.adapters;
+package be.ugent.sysdes2.ticket.adapters.rest;
 
 import be.ugent.sysdes2.ticket.domain.Detail;
 import be.ugent.sysdes2.ticket.persistence.DetailRepository;

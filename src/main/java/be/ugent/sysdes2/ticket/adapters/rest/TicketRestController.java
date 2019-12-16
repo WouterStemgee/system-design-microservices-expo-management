@@ -1,4 +1,4 @@
-package be.ugent.sysdes2.ticket.adapters;
+package be.ugent.sysdes2.ticket.adapters.rest;
 
 import be.ugent.sysdes2.ticket.domain.PayRequest;
 import be.ugent.sysdes2.ticket.domain.Detail;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("ticket")
+@CrossOrigin(origins = "*")
 public class TicketRestController {
 
     private final TicketRepository ticketRepository;

@@ -1,2 +1,0 @@
-INSERT INTO Ticket (ticket_id, event_id, name, status) VALUES (1, 1, 'Thomas Devriese', 'UNVALIDATED');
-INSERT INTO Ticket (ticket_id, event_id, name, status) VALUES (2, 2, 'Lisa Eggermont', 'UNVALIDATED');
