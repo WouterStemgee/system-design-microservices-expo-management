@@ -6,10 +6,15 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +30,8 @@ import be.ugent.sysdes2.cloakroom.persistence.CloakroomSpaceRepository;
 @RestController
 @RequestMapping("/cloakroom")
 public class CloakroomRestController implements CloakroomListener {
+    private static Logger logger = LoggerFactory.getLogger(CloakroomRestController.class);
+
     private CloakroomItemRepository cloakroomItemRepository;
     private CloakroomSpaceRepository cloakroomSpaceRepository;
     private CloakroomService cloakroomService;
@@ -45,13 +52,13 @@ public class CloakroomRestController implements CloakroomListener {
 		cloakroomService.registerCheckInListener(this);
     }
     
-    @GetMapping("/get_cloakroom_items")
+    @GetMapping()
     public Iterable<CloakroomItem> getAllCloakroomItems(){
 		return this.cloakroomItemRepository.findAll();
 	}
 
-    @GetMapping("/get_cloakroom_items/{id}")
-    public Iterable<CloakroomItem> getCloakroomItemByBadgeId(@PathVariable("id") String id) {
+    @GetMapping("/{badgeId}")
+    public Iterable<CloakroomItem> getCloakroomItemByBadgeId(@PathVariable("badgeId") String id) {
         try {
             int badgeId = Integer.parseInt(id);
             return this.cloakroomItemRepository.findByBadgeId(badgeId);
@@ -62,8 +69,8 @@ public class CloakroomRestController implements CloakroomListener {
         
 	}
 
-    @DeleteMapping("/remove_cloakroom_item/{id}")
-    public String removeCloakroomItem(@PathVariable("id") String id) {
+    @DeleteMapping("/{itemId}")
+    public String removeCloakroomItem(@PathVariable("itemId") String id) {
         try {
             int itemId = Integer.parseInt(id);
             if(cloakroomItemRepository.findByItemId(itemId) != null) {
@@ -79,20 +86,19 @@ public class CloakroomRestController implements CloakroomListener {
         
 	}
 
-    @GetMapping("/add_cloakroom_item")
-    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@RequestParam("itemId") int itemId,
-            @RequestParam("badgeId") int badgeId) {
-        System.out.println("Received add item REQUEST");
+    @PutMapping("/item")
+    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@RequestBody CloakroomItem ci) {
+        logger.info("Received add item REQUEST");
         DeferredResult<CloakroomItem> deferredResult = new DeferredResult<>(10000l);
 
         deferredResult.onTimeout(() -> {
             deferredResult.setErrorResult("Request timedout occurred");
         });
 
-        this.deferredResults.put(itemId, deferredResult);
+        this.deferredResults.put(ci.getItemId(), deferredResult);
 
-        System.out.println("Calling service...");
-        this.cloakroomService.addCloakroomItem(new CloakroomItem(itemId, badgeId));
+        logger.info("Calling service...");
+        this.cloakroomService.addCloakroomItem(new CloakroomItem(ci.getItemId(), ci.getBadgeId()));
 
         return deferredResult;
     }
@@ -100,17 +106,17 @@ public class CloakroomRestController implements CloakroomListener {
     private void performResponse(CloakroomItem response) {
         DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getItemId());
         if (deferredResult != null && !deferredResult.isSetOrExpired()) {
-            System.out.println("Setting result");
+            logger.info("Setting result");
             deferredResult.setResult(response);
         } else {
-            System.out.println("defereredResult: " + deferredResult);
+            logger.info("defereredResult: " + deferredResult);
         }
     }
 
     private void performFailResponse(CloakroomItem response, CloakroomReason cloakroomReason) {
         DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getItemId());
         if (deferredResult != null && !deferredResult.isSetOrExpired()) {
-            System.out.println("Setting fail result");
+            logger.info("Setting fail result");
             if(cloakroomReason == CloakroomReason.INSUFFICIENT_BALANCE) {
                 deferredResult.setErrorResult("Insufficient Balance");
             } else if(cloakroomReason == CloakroomReason.ITEM_ALREADY_STORED) {
@@ -120,7 +126,7 @@ public class CloakroomRestController implements CloakroomListener {
             }
             
         } else {
-            System.out.println("defereredResult: " + deferredResult);
+            logger.info("defereredResult: " + deferredResult);
         }
     }
 
