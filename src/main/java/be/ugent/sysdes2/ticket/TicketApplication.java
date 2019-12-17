@@ -23,6 +23,13 @@ public class TicketApplication {
 	}
 
 	@Bean
+	public CommandLineRunner printTest() {
+		return (args) ->{
+			logger.info("CommandLineRunner WORKING");
+		};
+	}
+
+	/*@Bean
 	public CommandLineRunner printOneTicket() {
 		return (args) ->{
 			logger.info("Printing one ticket:");
@@ -47,7 +54,7 @@ public class TicketApplication {
 			ticketRepository.save(ticket);
 			ticketRepository.findAll().forEach((t) -> logger.info(t.getName()));
 		};
-	}
+	}*/
 
 	@Bean
 	public CommandLineRunner testMessagingGateway(TicketRepository ticketRepository, MessageGateway gateway) {
