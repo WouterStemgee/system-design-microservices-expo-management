@@ -32,44 +32,4 @@ public class ParkingApplication {
 			service.addParking();
 		};
 	}
-
-	@Bean
-	public CommandLineRunner testReservation(ParkingService service, ParkingReservationRepository parkingReservationRepository) {
-		return (args) -> {
-			String strStartDate = "18/12/2018";
-			String strEndDate = "19/12/2018";
-			ZonedDateTime startDate = LocalDate.parse(strStartDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
-			ZonedDateTime endDate = LocalDate.parse(strEndDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
-
-			logger.info("startDate: " + startDate.toString());
-			logger.info("endDate: " + endDate.toString());
-			List<ParkingReservation> res = parkingReservationRepository.findByStartDateAndEndDate(startDate, endDate);
-			for (ParkingReservation p : res) {
-				logger.info(p.toString());
-			}
-		};
-	}
-
-/*	@Bean
-	public CommandLineRunner populateDatabase(ParkingRepository parkingRepository, ParkingTicketRepository ticketRepository) {
-		return (args) ->{
-			logger.info("Populating database");
-
-			parkingRepository.deleteAll();
-			Parking parking = new Parking(500);
-			parkingRepository.save(parking);
-
-
-			ticketRepository.deleteAll();
-			LocalDateTime currTime = LocalDateTime.now();
-			//DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
-			ParkingTicket t1 = new ParkingTicket(parking, LocalDateTime.of(currTime.getYear(), currTime.getMonth(), currTime.getDayOfMonth(), currTime.getHour(), currTime.getMinute(), currTime.getSecond()), ParkingTicket.TicketState.NOT_VALIDATED);
-			ParkingTicket t2 = new ParkingTicket(parking, LocalDateTime.of(currTime.getYear(), currTime.getMonth(), currTime.getDayOfMonth(), currTime.getHour(), currTime.getMinute(), currTime.getSecond()), ParkingTicket.TicketState.NOT_VALIDATED);
-			ParkingTicket t3 = new ParkingTicket(parking, LocalDateTime.of(currTime.getYear(), currTime.getMonth(), currTime.getDayOfMonth(), currTime.getHour(), currTime.getMinute(), currTime.getSecond()), ParkingTicket.TicketState.NOT_VALIDATED);
-
-			ticketRepository.save(t1);
-			ticketRepository.save(t2);
-			ticketRepository.save(t3);
-		};
-	}*/
 }
