@@ -46,7 +46,7 @@ public class ParkingRestController {
         parkingService.checkCapacity(startDate, endDate, capacity);
     }
 
-    @PostMapping("/capacity")
+    @PostMapping("/reserve")
     public void reserveCapacity(@RequestBody Map<String, String> payload) {
         String strStartDate = payload.get("startDate");
         String strEndDate = payload.get("endDate");
