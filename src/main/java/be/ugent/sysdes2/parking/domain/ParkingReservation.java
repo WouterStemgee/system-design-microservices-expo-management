@@ -19,10 +19,10 @@ public class ParkingReservation {
     private Parking parking;
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private ZonedDateTime startDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private ZonedDateTime endDate;
 
     @Column(name = "capacity")
     private int capacity;
@@ -30,7 +30,7 @@ public class ParkingReservation {
     private ParkingReservation() {
     }
 
-    public ParkingReservation(Parking parking, LocalDate startDate, LocalDate endDate, int capacity) {
+    public ParkingReservation(Parking parking, ZonedDateTime startDate, ZonedDateTime endDate, int capacity) {
         this.parking = parking;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -41,11 +41,11 @@ public class ParkingReservation {
         return id;
     }
 
-    public LocalDate getStartDate() {
+    public ZonedDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public ZonedDateTime getEndDate() {
         return endDate;
     }
 
@@ -55,7 +55,7 @@ public class ParkingReservation {
 
     @Override
     public String toString() {
-        return MessageFormat.format("reservationId: {0}\t startDate: {1} \t endDate: {2}\t capacity: {3}" , this.id, this.startDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), this.endDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), this.capacity);
+        return MessageFormat.format("reservationId: {0}\t startDate: {1} \t endDate: {2}\t capacity: {3}" , this.id, this.startDate.toString(), this.endDate.toString(), this.capacity);
     }
 
 }

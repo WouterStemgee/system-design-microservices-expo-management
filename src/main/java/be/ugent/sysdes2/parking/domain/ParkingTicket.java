@@ -3,6 +3,7 @@ package be.ugent.sysdes2.parking.domain;
 import javax.persistence.*;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -19,10 +20,10 @@ public class ParkingTicket {
     private Parking parking;
 
     @Column(name = "time_of_arrival")
-    private LocalDateTime timeOfArrival;
+    private ZonedDateTime timeOfArrival;
 
     @Column(name = "time_of_departure", nullable = true)
-    private LocalDateTime timeOfDeparture;
+    private ZonedDateTime timeOfDeparture;
 
     @Column(name = "state")
     private TicketState state;
@@ -30,7 +31,7 @@ public class ParkingTicket {
     private ParkingTicket() {
     }
 
-    public ParkingTicket(Parking parking, LocalDateTime timeOfArrival, TicketState state) {
+    public ParkingTicket(Parking parking, ZonedDateTime timeOfArrival, TicketState state) {
         this.parking = parking;
         this.timeOfArrival = timeOfArrival;
         this.timeOfDeparture = null;
@@ -41,11 +42,11 @@ public class ParkingTicket {
         return id;
     }
 
-    public LocalDateTime getTimeOfArrival() {
+    public ZonedDateTime getTimeOfArrival() {
         return timeOfArrival;
     }
 
-    public LocalDateTime getTimeOfDeparture() {
+    public ZonedDateTime getTimeOfDeparture() {
         return timeOfDeparture;
     }
 
@@ -57,7 +58,7 @@ public class ParkingTicket {
         this.state = state;
     }
 
-    public void setTimeOfDeparture(LocalDateTime timeOfDeparture) {
+    public void setTimeOfDeparture(ZonedDateTime timeOfDeparture) {
         this.timeOfDeparture = timeOfDeparture;
     }
 
@@ -71,7 +72,6 @@ public class ParkingTicket {
         TicketState(final String state) {
             this.state = state;
         }
-
 
         @Override
         public String toString() {

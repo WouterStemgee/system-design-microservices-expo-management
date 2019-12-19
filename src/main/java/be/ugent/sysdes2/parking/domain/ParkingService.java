@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,7 @@ public class ParkingService {
     public synchronized void addParkingTicket() throws ParkingFullException {
         if (parking.getCounter() < parking.getMaxCapacity()) {
             LocalDateTime currTime = LocalDateTime.now();
-            ParkingTicket ticket = new ParkingTicket(parking, LocalDateTime.of(currTime.getYear(), currTime.getMonth(), currTime.getDayOfMonth(), currTime.getHour(), currTime.getMinute(), currTime.getSecond()), ParkingTicket.TicketState.NOT_VALIDATED);
+            ParkingTicket ticket = new ParkingTicket(parking, LocalDateTime.of(currTime.getYear(), currTime.getMonth(), currTime.getDayOfMonth(), currTime.getHour(), currTime.getMinute(), currTime.getSecond()).atZone(ZoneId.of("Europe/Brussels")), ParkingTicket.TicketState.NOT_VALIDATED);
             parking.incCounter();
             parkingRepository.save(parking);
             ticketRepository.save(ticket);
@@ -96,7 +98,7 @@ public class ParkingService {
             if (ticket.getState() == ParkingTicket.TicketState.VALIDATED) {
                     parking.decCounter();
                     ticket.setState(ParkingTicket.TicketState.DISABLED);
-                    LocalDateTime currTime = LocalDateTime.now();
+                    ZonedDateTime currTime = LocalDateTime.now().atZone(ZoneId.of("Europe/Brussels"));
                     ticket.setTimeOfDeparture(currTime);
                     parkingRepository.save(parking);
                     ticketRepository.save(ticket);
@@ -109,31 +111,45 @@ public class ParkingService {
         }
     }
 
-    public void checkCapacity(LocalDate startDate, LocalDate endDate, int requestedCapacity) {
+    public void checkCapacity(ZonedDateTime startDate, ZonedDateTime endDate, int requestedCapacity) {
         // vraag alle reservaties op die eindigen na de startdatum, en beginnen voor de einddatum
         List<ParkingReservation> reservations = reservationRepository.findByStartDateAndEndDate(startDate, endDate);
+        List<ParkingReservation> currDateReservations = new ArrayList<>();
 
-        for (LocalDate currDate = startDate; currDate.isBefore(endDate); currDate = currDate.plusDays(1)) {
-            // verzameling maken van alle reservaties op elke dag tussen startdatum en einddatum, en telkens de som van de capaciteiten nemen
-            List<ParkingReservation> currDateReservations = new ArrayList<>();
+        logger.info("reservations: " + reservations.toString());
+        if (startDate.equals(endDate)) {
+            ZonedDateTime currDate = startDate;
             for (ParkingReservation reservation : reservations) {
-                if ((reservation.getStartDate().isBefore(currDate) || reservation.getStartDate().isEqual(currDate)) && (reservation.getEndDate().isAfter(currDate) || reservation.getEndDate().isEqual(currDate))) {
+                if ((reservation.getStartDate().isBefore(currDate) || reservation.getStartDate().equals(currDate)) && (reservation.getEndDate().isAfter(currDate) || reservation.getEndDate().equals(currDate))) {
                     currDateReservations.add(reservation);
                 }
             }
-            // indien voor elke dag, het verschil tussen de maximale capaciteit van de parking en de gevraagde capaciteit
-            // groter of gelijk is aan de som van de capaciteiten van de reservaties op elke dag, return true
-            int reservedCapacity = 0;
-            for(ParkingReservation reservation : currDateReservations) {
-                reservedCapacity += reservation.getCapacity();
+        } else {
+            for (ZonedDateTime currDate = startDate; currDate.isBefore(endDate); currDate = currDate.plusDays(1)) {
+                // verzameling maken van alle reservaties op elke dag tussen startdatum en einddatum, en telkens de som van de capaciteiten nemen
+                for (ParkingReservation reservation : reservations) {
+                    if ((reservation.getStartDate().isBefore(currDate) || reservation.getStartDate().equals(currDate)) && (reservation.getEndDate().isAfter(currDate) || reservation.getEndDate().equals(currDate))) {
+                        currDateReservations.add(reservation);
+                    }
+                }
             }
-            if (parking.getMaxCapacity() - requestedCapacity < reservedCapacity) {
-                throw new ParkingReservationCapacityException();
-            }
+        }
+
+        logger.info("currDateReservations: " + currDateReservations.toString());
+
+        // indien voor elke dag, het verschil tussen de maximale capaciteit van de parking en de gevraagde capaciteit
+        // groter of gelijk is aan de som van de capaciteiten van de reservaties op elke dag, return true
+        int reservedCapacity = 0;
+        for(ParkingReservation reservation : currDateReservations) {
+            reservedCapacity += reservation.getCapacity();
+        }
+        logger.info("reservedCapacity: " + reservedCapacity);
+        if (parking.getMaxCapacity() - requestedCapacity < reservedCapacity) {
+            throw new ParkingReservationCapacityException();
         }
     }
 
-    public void reserveCapacity(LocalDate startDate, LocalDate endDate, int capacity) {
+    public void reserveCapacity(ZonedDateTime startDate, ZonedDateTime endDate, int capacity) {
         this.checkCapacity(startDate, endDate, capacity);
         ParkingReservation reservation = new ParkingReservation(this.parking, startDate, endDate, capacity);
         reservationRepository.save(reservation);

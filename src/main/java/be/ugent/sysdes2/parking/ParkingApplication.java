@@ -1,10 +1,8 @@
 package be.ugent.sysdes2.parking;
 
-import be.ugent.sysdes2.parking.domain.Parking;
+import be.ugent.sysdes2.parking.domain.ParkingReservation;
 import be.ugent.sysdes2.parking.domain.ParkingService;
-import be.ugent.sysdes2.parking.domain.ParkingTicket;
-import be.ugent.sysdes2.parking.persistence.ParkingRepository;
-import be.ugent.sysdes2.parking.persistence.ParkingTicketRepository;
+import be.ugent.sysdes2.parking.persistence.ParkingReservationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -12,8 +10,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @SpringBootApplication
 public class ParkingApplication {
@@ -29,6 +30,23 @@ public class ParkingApplication {
 	public CommandLineRunner createParking(ParkingService service) {
 		return (args) -> {
 			service.addParking();
+		};
+	}
+
+	@Bean
+	public CommandLineRunner testReservation(ParkingService service, ParkingReservationRepository parkingReservationRepository) {
+		return (args) -> {
+			String strStartDate = "18/12/2018";
+			String strEndDate = "19/12/2018";
+			ZonedDateTime startDate = LocalDate.parse(strStartDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
+			ZonedDateTime endDate = LocalDate.parse(strEndDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
+
+			logger.info("startDate: " + startDate.toString());
+			logger.info("endDate: " + endDate.toString());
+			List<ParkingReservation> res = parkingReservationRepository.findByStartDateAndEndDate(startDate, endDate);
+			for (ParkingReservation p : res) {
+				logger.info(p.toString());
+			}
 		};
 	}
 
