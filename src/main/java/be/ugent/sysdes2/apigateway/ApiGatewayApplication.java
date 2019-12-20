@@ -38,6 +38,8 @@ public class ApiGatewayApplication {
 				.route(r -> r.path("/multimedia/**").uri("http://service-multimedia:2127"))
 				// Security service routes
 				.route(r -> r.path("/security/**").uri("http://service-security:2128"))
+				// Hall Management service routes
+				.route(r -> r.path("/management/**").uri("http://service-hall-management:2129"))
 				.build();
 	}
 }
