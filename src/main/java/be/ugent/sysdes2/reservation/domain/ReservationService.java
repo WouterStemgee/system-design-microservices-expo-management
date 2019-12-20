@@ -27,10 +27,10 @@ public class ReservationService {
         }
     }
 
-    public void reserve(ZonedDateTime startDate, ZonedDateTime endDate, int capacity, List<String> halls, int maxVisitors) throws JSONException {
+    public void reserve(ZonedDateTime startDate, ZonedDateTime endDate, int capacity, List<String> halls, int maxVisitors, float ticketPrice) throws JSONException {
         if (parking.getCapacity(startDate, endDate, capacity)) {
         //if (parking.getCapacity(startDate, endDate, capacity) && hallManagement.getAvailability(startDate, endDate, halls)) {
-            reservationSaga.startReservationSaga(new Reservation(startDate, endDate, capacity, halls, maxVisitors, ReservationStatus.RESERVATION_REQUESTED));
+            reservationSaga.startReservationSaga(new Reservation(startDate, endDate, capacity, halls, maxVisitors, ticketPrice, ReservationStatus.RESERVATION_REQUESTED));
         } else {
             throw new ReservationException();
         }

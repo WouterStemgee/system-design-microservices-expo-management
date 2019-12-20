@@ -50,7 +50,8 @@ public class ReservationRestController {
         int capacity = Integer.parseInt(payload.get("capacity"));
         List<String> halls = Arrays.asList(new ObjectMapper().readValue(payload.get("halls"), String[].class)); // needs testing with Hall Management
         int maxVisitors = Integer.parseInt(payload.get("maxVisitors"));
-        reservationService.reserve(startDate, endDate, capacity, halls, maxVisitors);
+        float ticketPrice = Float.parseFloat(payload.get("ticketPrice"));
+        reservationService.reserve(startDate, endDate, capacity, halls, maxVisitors, ticketPrice);
     }
 
 

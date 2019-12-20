@@ -10,14 +10,16 @@ public class Reservation {
     private int capacity;
     private List<String> halls;
     private int maxVisitors;
+    private float ticketPrice;
     private ReservationStatus status;
 
-    public Reservation(ZonedDateTime startDate, ZonedDateTime endDate,int capacity,List<String> halls, int maxVisitors, ReservationStatus status) {
+    public Reservation(ZonedDateTime startDate, ZonedDateTime endDate,int capacity, List<String> halls, int maxVisitors, float ticketPrice, ReservationStatus status) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.capacity = capacity;
         this.halls = halls;
         this.maxVisitors = maxVisitors;
+        this.ticketPrice = ticketPrice;
         this.status = status;
     }
 
