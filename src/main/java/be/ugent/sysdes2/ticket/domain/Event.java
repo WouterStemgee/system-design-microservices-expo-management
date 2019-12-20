@@ -6,20 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Detail {
+public class Event {
 
     @Id
     private final int eventId;
     private int availableTickets;
     private float price;
 
-    private Detail(){
+    private Event(){
         this.eventId = 0;
         this.availableTickets = 0;
         this.price = 0;
     }
 
-    public Detail(int id, int numberOfTickets, float price){
+    public Event(int id, int numberOfTickets, float price){
         this.eventId = id;
         this.availableTickets = numberOfTickets;
         this.price = price;

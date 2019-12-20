@@ -1,7 +1,7 @@
 package be.ugent.sysdes2.ticket.adapters.rest;
 
-import be.ugent.sysdes2.ticket.domain.Detail;
-import be.ugent.sysdes2.ticket.persistence.DetailRepository;
+import be.ugent.sysdes2.ticket.domain.Event;
+import be.ugent.sysdes2.ticket.persistence.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +12,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-
 @RestController
 @RequestMapping("ticket")
-public class DetailRestController {
+public class EventRestController {
 
-    private final DetailRepository detailRepository;
+    private final EventRepository eventRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(DetailRestController.class);
+    private static Logger logger = LoggerFactory.getLogger(EventRestController.class);
 
     @Autowired
-    public DetailRestController(DetailRepository detailRepository) {
-        this.detailRepository = detailRepository;
+    public EventRestController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
     @GetMapping("{eventId}/availability")
     public ResponseEntity<?> getAvailability(@PathVariable("eventId") int eventId) {
         logger.info("Get event availability with id " + eventId);
-        Detail detail = this.detailRepository.findById(eventId).orElse(null);
-        if(detail != null){
-            return new ResponseEntity<>(detail, HttpStatus.OK);
+        Event event = this.eventRepository.findById(eventId).orElse(null);
+        if(event != null){
+            return new ResponseEntity<>(event, HttpStatus.OK);
         }
         return new ResponseEntity<>("Event with id " + eventId + " does not exist.", HttpStatus.NOT_FOUND);    }
 }
