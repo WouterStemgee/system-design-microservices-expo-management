@@ -21,6 +21,15 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=sysdes2
       - MYSQL_DATABASE=Parking
+      - TZ=Europe/Brussels
+
+  support-halldb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Hall
+      - TZ=Europe/Brussels
   
   support-eventdb:
     image: mongo
@@ -33,9 +42,13 @@ services:
     links:
       - support-kafka
       - support-zookeeper
+      - service-hall-management
+      - service-parking
     depends_on:
       - support-kafka
       - support-zookeeper
+      - service-hall-management
+      - service-parking
 
   service-event-management:
     build: 
@@ -49,6 +62,15 @@ services:
       - support-kafka
       - support-zookeeper
  
+  service-hall-management:
+    build: 
+      context: ../hall-management
+    links:
+      - support-halldb
+    depends_on:
+      - support-halldb
+
+
   service-parking:
     build: 
       context: ../parking
@@ -63,10 +85,12 @@ services:
     links:
       - service-event-management
       - service-event-reservation
+      - service-hall-management
       - service-parking
     depends_on:
       - service-event-management
       - service-event-reservation
+      - service-hall-management
       - service-parking
     ports:
       - 8080:8080
