@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FormControl} from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'front-end';
+  title = 'Uitbating evenementencomplex';
+  startDate = new FormControl(new Date());
+  endDate = new FormControl(new Date());
 }
