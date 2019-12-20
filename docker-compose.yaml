@@ -33,6 +33,8 @@ services:
   
   support-eventdb:
     image: mongo
+    environment:
+      - TZ=Europe/Brussels
 
 # -------------Main services---------------
 
