@@ -23,7 +23,7 @@ public class ApiGatewayApplication {
 				// Event Reservation service routes
 				.route(r -> r.path("/reservation/**").uri("http://service-event-reservation:2120"))
 				// Event Management service routes
-				.route(r -> r.path("/management/**").uri("http://service-event-management:2121"))
+				.route(r -> r.path("/event-management/**").uri("http://service-event-management:2121"))
 				// Parking service routes
 				.route(r -> r.path("/parking/**").uri("http://service-parking:2122"))
 				// Ticket service routes
@@ -39,7 +39,7 @@ public class ApiGatewayApplication {
 				// Security service routes
 				.route(r -> r.path("/security/**").uri("http://service-security:2128"))
 				// Hall Management service routes
-				.route(r -> r.path("/management/**").uri("http://service-hall-management:2129"))
+				.route(r -> r.path("/hall-management/**").uri("http://service-hall-management:2129"))
 				.build();
 	}
 }
