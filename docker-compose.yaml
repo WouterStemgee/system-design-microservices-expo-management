@@ -14,6 +14,8 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=support-zookeeper:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://support-kafka:9092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    ports:
+      - 9092:9092
 
   support-parkingdb:
     image: mysql:5.7
@@ -21,6 +23,13 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=sysdes2
       - MYSQL_DATABASE=Parking
+
+  support-ticketdb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Ticket
   
   support-eventdb:
     image: mongo
@@ -56,6 +65,18 @@ services:
       - support-parkingdb
     depends_on:
       - support-parkingdb
+
+  service-ticket:
+    build:
+      context: ../ticket
+    links:
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
 
   service-api-gateway:
     build: 
