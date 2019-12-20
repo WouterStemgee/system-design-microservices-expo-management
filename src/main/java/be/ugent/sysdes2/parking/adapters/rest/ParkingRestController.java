@@ -39,13 +39,11 @@ public class ParkingRestController {
     }
 
     @GetMapping("/capacity")
-    public void getCapacity(@RequestBody Map<String, String> payload) {
-        String strStartDate = payload.get("startDate");
-        String strEndDate = payload.get("endDate");
-        int capacity = Integer.parseInt(payload.get("capacity"));
-        ZonedDateTime startDate = LocalDate.parse(strStartDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
-        ZonedDateTime endDate = LocalDate.parse(strEndDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels"));
-        parkingService.checkCapacity(startDate, endDate, capacity);
+    public void getCapacity(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String capacity) {
+        parkingService.checkCapacity(
+                LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels")),
+                LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(ZoneId.of("Europe/Brussels")),
+                Integer.parseInt(capacity));
     }
 
     @PostMapping("/reserve")
