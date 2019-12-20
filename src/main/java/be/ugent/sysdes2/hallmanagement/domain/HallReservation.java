@@ -14,7 +14,6 @@ public class HallReservation {
     @Id @GeneratedValue
     private int reservationId;
     private int hallId;
-    private int eventId;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -40,9 +39,5 @@ public class HallReservation {
 
     public LocalDate getEndDate() {
         return endDate;
-    }
-
-    public int getEventId() {
-        return eventId;
     }
 }
