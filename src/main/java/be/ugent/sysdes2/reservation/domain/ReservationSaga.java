@@ -39,7 +39,7 @@ public class ReservationSaga {
         }
     }
 
-    public void reserveHalls(Reservation reservation) {
+    public void reserveHalls(Reservation reservation) throws JSONException {
         if (!hallManagement.reserve(reservation.getStartDate(), reservation.getEndDate(), reservation.getHalls())) {
             logger.info("Event reservation failed: Hall availability insufficient");
             this.reservationFailed(reservation);

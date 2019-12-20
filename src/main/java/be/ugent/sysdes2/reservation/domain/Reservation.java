@@ -70,4 +70,12 @@ public class Reservation {
     public void setStatus(ReservationStatus status) {
         this.status = status;
     }
+
+    public float getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(float ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
 }
