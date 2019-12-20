@@ -28,6 +28,19 @@ public class TicketService {
     @Autowired
     private BankAdapter bank;
 
+    public Event getAvailability(String eventId) throws EventNotFoundException {
+        logger.info("Get ticket info for event with id " + eventId);
+        Event event = this.eventRepository.findById(eventId).orElse(null);
+        if(event != null){
+            return event;
+        }
+        throw new EventNotFoundException(eventId);
+    }
+
+    public void createEvent(Event event) {
+        this.eventRepository.save(event);
+    }
+
     public PayRequest buyTicket(BuyRequest buyRequest) throws NotEnoughTicketsException, EventNotFoundException {
         Event event = this.eventRepository.findById(buyRequest.getEventId()).orElse(null);
         if(event != null){
@@ -77,9 +90,5 @@ public class TicketService {
             return ticket;
         }
         throw new TicketNotFoundException(ticketId);
-    }
-
-    public void createEvent(Event event) {
-        this.eventRepository.save(event);
     }
 }

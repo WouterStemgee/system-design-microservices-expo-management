@@ -9,23 +9,23 @@ import javax.persistence.Id;
 public class Event {
 
     @Id
-    private final int eventId;
+    private final String eventId;
     private int availableTickets;
     private float price;
 
     private Event(){
-        this.eventId = 0;
+        this.eventId = "";
         this.availableTickets = 0;
         this.price = 0;
     }
 
-    public Event(int id, int numberOfTickets, float price){
+    public Event(String id, int numberOfTickets, float price){
         this.eventId = id;
         this.availableTickets = numberOfTickets;
         this.price = price;
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 

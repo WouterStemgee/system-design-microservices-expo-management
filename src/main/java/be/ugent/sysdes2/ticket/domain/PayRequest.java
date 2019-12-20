@@ -2,19 +2,19 @@ package be.ugent.sysdes2.ticket.domain;
 
 public class PayRequest {
 
-    private final int eventId;
+    private final String eventId;
     private final String name;
     private final int numberOfTickets;
     private final float totalPrice;
 
-    public PayRequest(int eventId, String name, int numberOfTickets, float totalPrice) {
+    public PayRequest(String eventId, String name, int numberOfTickets, float totalPrice) {
         this.eventId = eventId;
         this.name = name;
         this.numberOfTickets = numberOfTickets;
         this.totalPrice = totalPrice;
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 

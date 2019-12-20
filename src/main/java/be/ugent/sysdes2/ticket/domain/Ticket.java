@@ -11,18 +11,18 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private final int ticketId;
-    private final int eventId;
+    private final String eventId;
     private final String name;
     private String status;
 
     private Ticket(){
         this.ticketId = 0;
-        this.eventId = 0;
+        this.eventId = "";
         this.name = null;
         this.status = null;
     }
 
-    public Ticket(int ticketId, int eventId, String name, String status){
+    public Ticket(int ticketId, String eventId, String name, String status){
         this.ticketId = ticketId;
         this.eventId = eventId;
         this.name = name;
@@ -33,7 +33,7 @@ public class Ticket {
         return ticketId;
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 

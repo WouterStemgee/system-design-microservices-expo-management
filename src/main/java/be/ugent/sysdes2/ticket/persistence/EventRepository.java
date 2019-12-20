@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface EventRepository extends CrudRepository<Event, Integer> {
+public interface EventRepository extends CrudRepository<Event, String> {
 
     @Modifying
     @Transactional
     @Query("update Event set available_tickets = ?1 where event_id = ?2")
-    void updateAvailableTickets(int availableTickets, int eventId);
+    void updateAvailableTickets(int availableTickets, String eventId);
 }

@@ -2,17 +2,17 @@ package be.ugent.sysdes2.ticket.domain;
 
 public class BuyRequest {
 
-    private final int eventId;
+    private final String eventId;
     private final String name;
     private final int numberOfTickets;
 
-    public BuyRequest(int eventId, String name, int numberOfTickets) {
+    public BuyRequest(String eventId, String name, int numberOfTickets) {
         this.eventId = eventId;
         this.name = name;
         this.numberOfTickets = numberOfTickets;
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
