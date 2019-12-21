@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,17 +119,12 @@ public class ParkingService {
 
         logger.info("reservations: " + reservations.toString());
         if (startDate.equals(endDate)) {
-            ZonedDateTime currDate = startDate;
-            for (ParkingReservation reservation : reservations) {
-                if ((reservation.getStartDate().isBefore(currDate) || reservation.getStartDate().equals(currDate)) && (reservation.getEndDate().isAfter(currDate) || reservation.getEndDate().equals(currDate))) {
-                    currDateReservations.add(reservation);
-                }
-            }
+            currDateReservations.addAll(reservations);
         } else {
-            for (ZonedDateTime currDate = startDate; currDate.isBefore(endDate); currDate = currDate.plusDays(1)) {
+            for (LocalDate currDate = startDate.toLocalDate(); currDate.isBefore(endDate.toLocalDate()); currDate = currDate.plusDays(1)) {
                 // verzameling maken van alle reservaties op elke dag tussen startdatum en einddatum, en telkens de som van de capaciteiten nemen
                 for (ParkingReservation reservation : reservations) {
-                    if ((reservation.getStartDate().isBefore(currDate) || reservation.getStartDate().equals(currDate)) && (reservation.getEndDate().isAfter(currDate) || reservation.getEndDate().equals(currDate))) {
+                    if ((reservation.getStartDate().toLocalDate().isBefore(currDate) || reservation.getStartDate().toLocalDate().isEqual(currDate)) && (reservation.getEndDate().toLocalDate().isAfter(currDate) || reservation.getEndDate().toLocalDate().isEqual(currDate))) {
                         currDateReservations.add(reservation);
                     }
                 }

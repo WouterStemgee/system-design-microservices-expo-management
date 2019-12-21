@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("parking")
 public class ParkingRestController {
 
