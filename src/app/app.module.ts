@@ -4,16 +4,20 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  DateAdapter, MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   MatButtonModule,
   MatButtonToggleModule,
   MatDatepickerModule,
   MatInputModule,
-  MatNativeDateModule,
+  MatNativeDateModule, MatSelectModule,
   MatTabsModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {APP_DATE_FORMATS} from './date.adapter';
+import {ToastrModule} from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -30,9 +34,14 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    ToastrModule.forRoot()
   ],
-  providers: [{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

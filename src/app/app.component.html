@@ -1,24 +1,43 @@
 <mat-tab-group color="primary" backgroundColor="accent">
   <mat-tab label="Event Reservation">
-    <mat-form-field>
-      <input matInput [matDatepicker]="startDatePicker" placeholder="Event start date" [formControl]="startDate">
-      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-      <mat-datepicker #startDatePicker></mat-datepicker>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput [matDatepicker]="endDatePicker" placeholder="Event end date" [formControl]="endDate">
-      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-      <mat-datepicker #endDatePicker></mat-datepicker>
-    </mat-form-field>
-    <br>
-    <button mat-raised-button color="primary">Check Availability</button>
-    <br>
-    <br>
-    <button mat-raised-button color="primary">Reserve</button>
+      <mat-form-field>
+        <input matInput [matDatepicker]="startDatePicker" placeholder="Event start date" [formControl]="templateDate" (dateChange)="onStartDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [matDatepicker]="endDatePicker" placeholder="Event end date" [formControl]="templateDate" (dateChange)="onEndDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Max. Visitors" [(ngModel)]="visitors">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Ticket Price" [(ngModel)]="price">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Parking Capacity"  [(ngModel)]="capacity">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Halls" [formControl]="halls" multiple (selectionChange)="onHallsSelectionChange($event)">
+          <mat-option *ngFor="let hall of hallList" [value]="hall">{{ hall }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" (click)="getReservationAvailability()">Check Availability</button>
+      <br>
+      <br>
+      <button mat-raised-button color="primary" (click)="createReservation()">Create Reservation</button>
   </mat-tab>
   <mat-tab label="Event Management">Event Management</mat-tab>
   <mat-tab label="Tracking">Tracking</mat-tab>
+  <mat-tab label="Parking">Parking</mat-tab>
   <mat-tab label="Ticket">Ticket</mat-tab>
   <mat-tab label="Badge">Badge</mat-tab>
   <mat-tab label="Food and Drinks">Food and Drinks</mat-tab>
