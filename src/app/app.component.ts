@@ -18,9 +18,10 @@ export class AppComponent {
   visitors = '2000';
   price = '15.99';
   capacity = '500';
-  halls = new FormControl();
+  halls = new FormControl([]);
   templateDate = new FormControl(new Date());
   hallList = ['hall1', 'hall2', 'hall3', 'hall4', 'hall5', 'hall6'];
+  eventId = '5dfe00ea2eada541a1044540';
 
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
@@ -64,57 +65,104 @@ export class AppComponent {
   onHallsSelectionChange(e) {
     console.log(this.halls.value);
   }
+  error(err) {
+    if (err.error) {
+      if (err.error.message) {
+        if (err.error.message.match(/"\d{3} .*",/)) {
+          return err.error.message.match(/"\d{3} .*",/).toString().substr(4).slice(0, -2);
+        }
+        return err.error.message;
+      }
+      return err.error;
+    }
+    return err;
+  }
 
   // =========================== Event Reservation ===========================
   getReservationAvailability() {
-    console.log(this.startDate, this.endDate, this.capacity, this.halls.value);
-    this.http.getReservationAvailability(this.startDate, this.endDate, this.capacity, this.halls.value)
-      .then(result => {
-        this.onAlertEvent.emit({
-          title: 'Success',
-          message: 'Reservation is available!',
-          type: 'success'
+    if (this.startDate <= this.endDate) {
+      console.log(this.startDate, this.endDate, this.capacity, this.halls.value);
+      this.http.getReservationAvailability(this.startDate, this.endDate, this.capacity, this.halls.value)
+        .then(result => {
+          this.onAlertEvent.emit({
+            title: 'Success',
+            message: 'Reservation is available!',
+            type: 'success'
+          });
+        })
+        .catch(err => {
+          this.onAlertEvent.emit({
+            title: 'Error',
+            message: this.error(err),
+            type: 'error'
+          });
         });
-      })
-      .catch(err => {
-        this.onAlertEvent.emit({
-          title: 'Error',
-          message: 'Reservation is not available',
-          type: 'error'
-        });
-      });
+    }
   }
   createReservation() {
-    console.log(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price);
-    this.http.createReservation(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price)
-      .then(result => {
-        this.onAlertEvent.emit({
-          title: 'Success',
-          message: 'Reservation created!',
-          type: 'success'
+    if (this.startDate <= this.endDate) {
+      console.log(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price);
+      this.http.createReservation(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price)
+        .then(result => {
+          this.onAlertEvent.emit({
+            title: 'Success',
+            message: 'Reservation created!',
+            type: 'success'
+          });
+        })
+        .catch(err => {
+          this.onAlertEvent.emit({
+            title: 'Error',
+            message: this.error(err),
+            type: 'error'
+          });
         });
-      })
-      .catch(err => {
-        this.onAlertEvent.emit({
-          title: 'Error',
-          message: 'Reservation is not available',
-          type: 'error'
-        });
-      });
+    }
   }
 
   // =========================== Event Management ===========================
-  getEventInformation(eventId) {}
-  endEvent(eventId) {}
-
-  // =========================== Tracking ===========================
-  getProgress() {}
-  updateProgress() {}
-
+  getEventInformation() {
+    this.http.getEventInformation(this.eventId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: JSON.stringify(result),
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  endEvent() {
+    this.http.endEvent(this.eventId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
   // =========================== Parking ===========================
   createParkingTicket() {}
   validateParkingTicket(ticketId) {}
   exitParking(ticketId) {}
+
+  // =========================== Tracking ===========================
+  getProgress() {}
+  updateProgress() {}
 
   // =========================== Ticket ===========================
   getTicketAvailability() {}

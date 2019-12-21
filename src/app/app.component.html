@@ -35,9 +35,18 @@
       <br>
       <button mat-raised-button color="primary" (click)="createReservation()">Create Reservation</button>
   </mat-tab>
-  <mat-tab label="Event Management">Event Management</mat-tab>
-  <mat-tab label="Tracking">Tracking</mat-tab>
+  <mat-tab label="Event Management">
+    <mat-form-field>
+      <input matInput placeholder="Event ID" [(ngModel)]="eventId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="getEventInformation()">Request Event Information</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="endEvent()">End Event</button>
+  </mat-tab>
   <mat-tab label="Parking">Parking</mat-tab>
+  <mat-tab label="Tracking">Tracking</mat-tab>
   <mat-tab label="Ticket">Ticket</mat-tab>
   <mat-tab label="Badge">Badge</mat-tab>
   <mat-tab label="Food and Drinks">Food and Drinks</mat-tab>
