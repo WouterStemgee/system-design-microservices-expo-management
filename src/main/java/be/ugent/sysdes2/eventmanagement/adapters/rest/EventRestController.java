@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @RestController
+@CrossOrigin
 @RequestMapping("event-management")
 public class EventRestController {
     private static final Logger log = LoggerFactory.getLogger(EventRestController.class);
