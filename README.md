@@ -52,7 +52,10 @@
 - validateEntranceTicket()
    - PUT /ticket/{ticketId}/validate
 - rechargeBadge()
-   - POST /badge/{badgeId}/recharge
+   - PUT /badge/{badgeId}/recharge
+   - JSON body: amount
+- decreaseBalance()
+   - PUT /badge/{badgeId}/decrease
    - JSON body: amount
 - createOrder()
    - PUT /food_and_drinks
