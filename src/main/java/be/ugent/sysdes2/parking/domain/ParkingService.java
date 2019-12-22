@@ -79,7 +79,7 @@ public class ParkingService {
         if (ticketRepository.findById(ticketId).isPresent()) {
             ParkingTicket ticket = ticketRepository.findById(ticketId).get();
             if (ticket.getState() == ParkingTicket.TicketState.NOT_VALIDATED) {
-                long hours = ChronoUnit.HOURS.between(ticket.getTimeOfArrival(), LocalDateTime.now());
+                long hours = ChronoUnit.HOURS.between(ticket.getTimeOfArrival().toLocalDateTime(), LocalDateTime.now());
                 double ticketPrice = hours * PARKING_PRICE_HOURLY;
                 if (bank.transactionVerified(ticketPrice)) {
                     ticket.setState(ParkingTicket.TicketState.VALIDATED);
