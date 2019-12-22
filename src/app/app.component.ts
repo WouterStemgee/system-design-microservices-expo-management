@@ -22,6 +22,7 @@ export class AppComponent {
   templateDate = new FormControl(new Date());
   hallList = ['hall1', 'hall2', 'hall3', 'hall4', 'hall5', 'hall6'];
   eventId = '5dfe00ea2eada541a1044540';
+  parkingTicketId = '1';
 
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
@@ -156,9 +157,57 @@ export class AppComponent {
       });
   }
   // =========================== Parking ===========================
-  createParkingTicket() {}
-  validateParkingTicket(ticketId) {}
-  exitParking(ticketId) {}
+  createParkingTicket() {
+    this.http.createParkingTicket()
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  validateParkingTicket() {
+    this.http.validateParkingTicket(this.parkingTicketId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  exitParking() {
+    this.http.exitParking(this.parkingTicketId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Tracking ===========================
   getProgress() {}

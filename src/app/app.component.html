@@ -45,7 +45,19 @@
     <br>
     <button mat-raised-button color="primary" (click)="endEvent()">End Event</button>
   </mat-tab>
-  <mat-tab label="Parking">Parking</mat-tab>
+  <mat-tab label="Parking">
+    <button mat-raised-button color="primary" (click)="createParkingTicket()">Create Parking Ticket</button>
+    <br>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Ticket ID" [(ngModel)]="parkingTicketId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="validateParkingTicket()">Validate Parking Ticket</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="exitParking()">Exit Parking Ticket</button>
+  </mat-tab>
   <mat-tab label="Tracking">Tracking</mat-tab>
   <mat-tab label="Ticket">Ticket</mat-tab>
   <mat-tab label="Badge">Badge</mat-tab>

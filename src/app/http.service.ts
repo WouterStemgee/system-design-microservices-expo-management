@@ -71,9 +71,45 @@ export class HttpService {
   }
 
   // Parking
-  createParkingTicket() {}
-  validateParkingTicket(ticketId) {}
-  exitParking(ticketId) {}
+  createParkingTicket() {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/parking/tickets/create/', {})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+  validateParkingTicket(ticketId) {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/parking/tickets/validate/' + ticketId, {})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+  exitParking(ticketId) {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/parking/tickets/exit/' + ticketId, {})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
 
   // Tracking
   getProgress() {}
