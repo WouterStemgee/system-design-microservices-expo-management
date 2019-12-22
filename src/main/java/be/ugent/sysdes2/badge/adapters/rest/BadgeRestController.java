@@ -1,9 +1,8 @@
 package be.ugent.sysdes2.badge.adapters.rest;
 
 import be.ugent.sysdes2.badge.domain.Badge;
-import be.ugent.sysdes2.badge.persistence.BadgeRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import be.ugent.sysdes2.badge.domain.BadgeService;
+import be.ugent.sysdes2.badge.domain.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +11,21 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class BadgeRestController {
 
-    private final BadgeRepository badgeRepository;
-
-    private static Logger logger = LoggerFactory.getLogger(BadgeRestController.class);
+    @Autowired
+    private BadgeService badgeService;
 
     @Autowired
-    public BadgeRestController(BadgeRepository badgeRepository){
-        this.badgeRepository = badgeRepository;
+    public BadgeRestController(BadgeService badgeService){
+        this.badgeService = badgeService;
     }
 
-    @GetMapping("{badgeId}")
-    public Badge getBadge(@PathVariable("badgeId") int badgeId) {
-        logger.info("Get badge with id " + badgeId);
-        return this.badgeRepository.findById(badgeId).orElse(null);
+    @PutMapping("{badgeId}/recharge")
+    public Badge rechargeBadge(@PathVariable("badgeId") int badgeId, @RequestBody Transaction transaction) {
+        return this.badgeService.rechargeBadge(badgeId, transaction.getAmount());
     }
 
+    @PutMapping("{badgeId}/decrease")
+    public Badge decreaseBalance(@PathVariable("badgeId") int badgeId, @RequestBody Transaction transaction) {
+        return this.badgeService.decreaseBalance(badgeId, transaction.getAmount());
+    }
 }

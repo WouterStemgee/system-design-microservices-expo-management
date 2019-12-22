@@ -9,12 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
-//@EnableBinding(Channels.class)
+@EnableBinding(Channels.class)
 @SpringBootApplication
 public class BadgeApplication {
 
 	private static Logger logger = LoggerFactory.getLogger(BadgeApplication.class);
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(BadgeApplication.class, args);

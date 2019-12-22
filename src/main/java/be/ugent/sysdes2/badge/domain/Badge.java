@@ -8,16 +8,16 @@ public class Badge {
 
     @Id
     private final int badgeId;
-    private final int eventId;
+    private final String eventId;
     private float balance;
 
     private Badge(){
         this.badgeId = 0;
-        this.eventId = 0;
-        this.balance = 0;
+        this.eventId = "";
+        this.balance = 0f;
     }
 
-    public Badge(int badgeId, int eventId, float balance){
+    public Badge(int badgeId, String eventId, float balance){
         this.badgeId = badgeId;
         this.eventId = eventId;
         this.balance = balance;
@@ -27,7 +27,7 @@ public class Badge {
         return badgeId;
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
