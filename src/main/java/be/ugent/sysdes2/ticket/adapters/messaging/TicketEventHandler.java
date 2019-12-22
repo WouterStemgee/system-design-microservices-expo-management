@@ -9,14 +9,14 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TicketCommandHandler {
+public class TicketEventHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(TicketCommandHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(TicketEventHandler.class);
 
     private final TicketService ticketService;
 
     @Autowired
-    public TicketCommandHandler(TicketService ticketService) {
+    public TicketEventHandler(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 

@@ -7,7 +7,7 @@ public class BankAdapter {
 
     public BankAdapter() {}
 
-    public boolean transactionVerified(double price) {
+    public boolean transactionVerified(float price) {
         return true;
     }
 }

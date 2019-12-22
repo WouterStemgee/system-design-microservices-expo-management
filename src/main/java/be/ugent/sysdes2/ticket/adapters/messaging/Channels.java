@@ -11,7 +11,7 @@ public interface Channels {
     static final String TICKET_VALIDATED = "ticket_validated";
 
     @Input(EVENT_CREATED)
-    SubscribableChannel eventCreated();
+    SubscribableChannel createEvent();
 
     @Output(TICKET_VALIDATED)
     MessageChannel ticketValidated();

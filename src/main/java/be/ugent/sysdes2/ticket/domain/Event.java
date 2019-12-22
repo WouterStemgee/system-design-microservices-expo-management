@@ -16,7 +16,7 @@ public class Event {
     private Event(){
         this.eventId = "";
         this.availableTickets = 0;
-        this.price = 0;
+        this.price = 0f;
     }
 
     public Event(String id, int numberOfTickets, float price){
