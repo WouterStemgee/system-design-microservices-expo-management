@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-parking
+  labels:
+    app: service-parking
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-parking
+  template:
+    metadata:
+      labels:
+        app: service-parking
+    spec:
+      containers:
+      - name: service-parking
+        image: wouterstemgee/parking:0.0.1
+        ports:
+        - containerPort: 2122
