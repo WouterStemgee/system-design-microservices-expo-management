@@ -8,12 +8,8 @@ import org.springframework.messaging.SubscribableChannel;
 public interface Channels {
 
     static final String EMERGENCY = "emergency";
-    static final String EMERGENCY_RECEIVED= "emergency_received";
+
 
     @Output(EMERGENCY)
     MessageChannel emergency();
-
-    @Input(EMERGENCY_RECEIVED)
-    SubscribableChannel emergencyReceived();
-
 }

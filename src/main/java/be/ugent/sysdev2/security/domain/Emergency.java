@@ -1,13 +1,22 @@
 package be.ugent.sysdev2.security.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
+
 public class Emergency {
 
-    private type emergencyType = type.FIRE;
+    private type emergencyType;
 
     private int severity;
     private String source;
 
-
+    @Autowired
+    public Emergency(type emergencyType,int severity,String source){
+        this.emergencyType = emergencyType;
+        this.severity = severity;
+        this.source = source;
+    }
     public int getSeverity() {
         return severity;
     }

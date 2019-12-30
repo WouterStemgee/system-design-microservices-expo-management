@@ -10,6 +10,8 @@ import be.ugent.sysdev2.security.adapters.messaging.MessageGateway;
 import be.ugent.sysdev2.security.adapters.messaging.Channels;
 import org.springframework.boot.CommandLineRunner;
 
+import java.util.logging.Logger;
+
 @SpringBootApplication
 @EnableBinding(Channels.class)
 public class SecurityApplication {
@@ -19,18 +21,12 @@ public class SecurityApplication {
 	}
 
 
-	@Bean
-	public CommandLineRunner testMessagingGateway(Emergency emergency, MessageGateway gateway) {
+	/*@Bean
+	public CommandLineRunner testMessagingGateway(MessageGateway gateway) {
 		return (args) -> {
-
-			emergency.setSeverity(1);
-			type etype = type.FIRE;
-			emergency.setType(etype);
-			emergency.setSource("Brandmelder");
-
-
+			Emergency emergency = new Emergency(type.FIRE,1,"Brandmelder");
 			gateway.resolveEmergency(emergency);
 		};
-	}
+	}*/
 
 }

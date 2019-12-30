@@ -9,6 +9,4 @@ public interface MessageGateway {
     @Gateway(requestChannel = Channels.EMERGENCY)
     public void resolveEmergency(Emergency emergency);
 
-    @Gateway(requestChannel = Channels.EMERGENCY_RECEIVED)
-    public void receiveEmergency(String message);
 }
