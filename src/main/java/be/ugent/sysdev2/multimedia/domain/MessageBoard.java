@@ -1,22 +1,22 @@
 package be.ugent.sysdev2.multimedia.domain;
 
-import org.springframework.data.cassandra.core.cql.Ordering;
-import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Table
+@Entity
+@Table(name = "message_board")
 public class MessageBoard {
-    @PrimaryKey
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column("Message")
+    @Column(name="message")
     private String boardMessage;
 
+    private MessageBoard(){
+
+    }
     public MessageBoard(int id,String boardMessage){
         this.id=id;
         this.boardMessage=boardMessage;

@@ -1,22 +1,15 @@
 package be.ugent.sysdev2.multimedia.adapters.messaging;
 
+import be.ugent.sysdev2.multimedia.domain.type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmergencyRequest {
-    private enum type {
-        FIRE,CO,MANUAL,NUCLEAR_ATTACK
-    };
     private type emergencyType;
-
     private int severity;
     private String source;
 
-    public EmergencyRequest(int severity,String source,type emergencyType){
-        this.emergencyType=emergencyType;
-        this.severity=severity;
-        this.source=source;
-    }
     public int getSeverity() {
         return severity;
     }
