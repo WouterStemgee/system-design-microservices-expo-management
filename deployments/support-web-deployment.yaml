@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: support-web
-        image: wouterstemgee/support-web:0.0.1
+        image: wouterstemgee/front-end:0.0.1
         ports:
         - containerPort: 80
