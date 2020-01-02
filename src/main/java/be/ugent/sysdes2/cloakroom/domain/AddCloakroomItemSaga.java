@@ -23,10 +23,14 @@ public class AddCloakroomItemSaga {
     @Autowired
     private final CloakroomSpaceRepository cloakroomSpaceRepository;
 
-	public AddCloakroomItemSaga(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository) {
+    @Autowired
+    private NextSequenceService nextSequenceService;
+
+	public AddCloakroomItemSaga(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository, NextSequenceService nextSequenceService) {
         this.cloakroomItemRepository = cloakroomItemRepository;
         this.cloakroomSpaceRepository = cloakroomSpaceRepository;
-		this.listeners = new ArrayList<CloakroomListener>();
+        this.listeners = new ArrayList<CloakroomListener>();
+        this.nextSequenceService = nextSequenceService;
 	}
 
     public void registerListener(CloakroomListener listener) {
@@ -39,7 +43,7 @@ public class AddCloakroomItemSaga {
         CloakroomSpace cs = cloakroomSpaceRepository.getCloakroomSpace();
         if(cs.getAvailableSpaces() > 0) {
             //check if item does not exist
-            if(!cloakroomItemExists(cloakroomItem)) {
+            //if(!cloakroomItemExists(cloakroomItem)) {
                  //update available space
                 cs.decreaseAvailableSpaces();
                 cloakroomSpaceRepository.save(cs);
@@ -48,10 +52,10 @@ public class AddCloakroomItemSaga {
                 float price = cs.getPricePerSpace();
                 // TODO: api call to update balance. What if api call failed or timeout?
                 this.onBalanceUpdate(cloakroomItem);
-            } else {
-                logger.info("Item already exists: {}/{}. ItemId {}, BadgeId failed to add", cs.getAvailableSpaces(), cs.getTotalSpaces(), cloakroomItem.getItemId(), cloakroomItem.getBadgeId());
-                this.listeners.forEach(l -> l.onItemAddFail(cloakroomItem, CloakroomReason.ITEM_ALREADY_STORED));
-            }
+            // } else {
+            //     logger.info("Item already exists: {}/{}. ItemId {}, BadgeId failed to add", cs.getAvailableSpaces(), cs.getTotalSpaces(), cloakroomItem.getItemId(), cloakroomItem.getBadgeId());
+            //     this.listeners.forEach(l -> l.onItemAddFail(cloakroomItem, CloakroomReason.ITEM_ALREADY_STORED));
+            // }
         } else {
             logger.info("Cloakroom has no more space: {}/{}. ItemId {}, BadgeId {} failed to add", cs.getAvailableSpaces(), cs.getTotalSpaces(), cloakroomItem.getItemId(), cloakroomItem.getBadgeId());
             this.listeners.forEach(l -> l.onItemAddFail(cloakroomItem, CloakroomReason.NO_MORE_SPACE));
@@ -64,6 +68,7 @@ public class AddCloakroomItemSaga {
 
     public void onBalanceUpdate(CloakroomItem cloakroomItem) {
         // add the item in the db
+        cloakroomItem.setItemId(nextSequenceService.getNextSequence("customSequences"));
         logger.info("ItemId {}, BadgeId {} added", cloakroomItem.getItemId(), cloakroomItem.getBadgeId());
         cloakroomItemRepository.save(cloakroomItem);
         this.listeners.forEach(l -> l.onItemAddSuccess(cloakroomItem));

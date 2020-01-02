@@ -32,11 +32,11 @@ public class CloakroomService {
         }
     }
 
-    public synchronized void removeCloakroomItem(String id) {
+    public synchronized void removeCloakroomItem(int id) {
         //remove item & update availibility counter
-        cloakroomItemRepository.deleteById(id);
+        cloakroomItemRepository.deleteByItemId(id);
         CloakroomSpace cs = cloakroomSpaceRepository.getCloakroomSpace();
-        cs.decreaseAvailableSpaces();
+        cs.increaseAvailableSpaces();
         cloakroomSpaceRepository.save(cs);
     }
 }

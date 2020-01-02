@@ -24,8 +24,13 @@ import be.ugent.sysdes2.cloakroom.domain.CloakroomItem;
 import be.ugent.sysdes2.cloakroom.domain.CloakroomListener;
 import be.ugent.sysdes2.cloakroom.domain.CloakroomReason;
 import be.ugent.sysdes2.cloakroom.domain.CloakroomService;
+import be.ugent.sysdes2.cloakroom.domain.NextSequenceService;
+import be.ugent.sysdes2.cloakroom.persistence.CloakroomFullException;
 import be.ugent.sysdes2.cloakroom.persistence.CloakroomItemRepository;
 import be.ugent.sysdes2.cloakroom.persistence.CloakroomSpaceRepository;
+import be.ugent.sysdes2.cloakroom.persistence.InsufficientBalanceException;
+import be.ugent.sysdes2.cloakroom.persistence.ItemAlreadyExistsException;
+import be.ugent.sysdes2.cloakroom.persistence.ItemDoesNotExistsException;
 
 @RestController
 @RequestMapping("/cloakroom")
@@ -40,7 +45,7 @@ public class CloakroomRestController implements CloakroomListener {
 
     @Autowired
     private CloakroomRestController(CloakroomSpaceRepository cloakroomSpaceRepository,
-            CloakroomItemRepository cloakroomItemRepository, CloakroomService cloakroomService) {
+            CloakroomItemRepository cloakroomItemRepository, CloakroomService cloakroomService, NextSequenceService nextSequenceService) {
         this.cloakroomItemRepository = cloakroomItemRepository;
         this.cloakroomSpaceRepository = cloakroomSpaceRepository;
         this.cloakroomService = cloakroomService;
@@ -70,24 +75,25 @@ public class CloakroomRestController implements CloakroomListener {
 	}
 
     @DeleteMapping("/{itemId}")
-    public String removeCloakroomItem(@PathVariable("itemId") String id) {
+    public String removeCloakroomItem(@PathVariable("itemId") String id) throws ItemDoesNotExistsException {
         try {
             int itemId = Integer.parseInt(id);
+            
             if(cloakroomItemRepository.findByItemId(itemId) != null) {
-                cloakroomService.removeCloakroomItem(id);
+                cloakroomService.removeCloakroomItem(itemId);
                 return "success";
             } else {
-                return "No item found";
+                throw new ItemDoesNotExistsException("The item with that id does not exist.");
             }         
         }
         catch(NumberFormatException e) {
-            return "No item found";
+            throw new ItemDoesNotExistsException("The item with that id does not exist.");
         }
         
 	}
 
     @PutMapping("/item")
-    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@RequestBody CloakroomItem ci) {
+    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@RequestBody int badgeId) {
         logger.info("Received add item REQUEST");
         DeferredResult<CloakroomItem> deferredResult = new DeferredResult<>(10000l);
 
@@ -95,16 +101,16 @@ public class CloakroomRestController implements CloakroomListener {
             deferredResult.setErrorResult("Request timedout occurred");
         });
 
-        this.deferredResults.put(ci.getItemId(), deferredResult);
+        this.deferredResults.put(badgeId, deferredResult);
 
         logger.info("Calling service...");
-        this.cloakroomService.addCloakroomItem(new CloakroomItem(ci.getItemId(), ci.getBadgeId()));
+        this.cloakroomService.addCloakroomItem(new CloakroomItem(badgeId));
 
         return deferredResult;
     }
 
     private void performResponse(CloakroomItem response) {
-        DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getItemId());
+        DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getBadgeId());
         if (deferredResult != null && !deferredResult.isSetOrExpired()) {
             logger.info("Setting result");
             deferredResult.setResult(response);
@@ -114,15 +120,15 @@ public class CloakroomRestController implements CloakroomListener {
     }
 
     private void performFailResponse(CloakroomItem response, CloakroomReason cloakroomReason) {
-        DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getItemId());
+        DeferredResult<CloakroomItem> deferredResult = this.deferredResults.remove(response.getBadgeId());
         if (deferredResult != null && !deferredResult.isSetOrExpired()) {
             logger.info("Setting fail result");
             if(cloakroomReason == CloakroomReason.INSUFFICIENT_BALANCE) {
-                deferredResult.setErrorResult("Insufficient Balance");
+                deferredResult.setErrorResult(new InsufficientBalanceException("Insufficient Balance"));
             } else if(cloakroomReason == CloakroomReason.ITEM_ALREADY_STORED) {
-                deferredResult.setErrorResult("Item already exists");
+                deferredResult.setErrorResult(new ItemAlreadyExistsException("Item already exists"));
             } else {
-                deferredResult.setErrorResult("No available spaces");
+                deferredResult.setErrorResult(new CloakroomFullException("No available spaces"));
             }
             
         } else {
