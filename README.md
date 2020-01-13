@@ -1,2 +1,2 @@
-# drinks-and-food
-Drinks and food service
+# food-and-drinks
+Food and drinks service
