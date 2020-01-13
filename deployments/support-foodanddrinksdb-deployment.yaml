@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-foodanddrinksdb
+  labels:
+    app: support-foodanddrinksdb
+    chaos: immune
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-foodanddrinksdb
+  template:
+    metadata:
+      labels:
+        app: support-foodanddrinksdb
+        chaos: immune
+    spec:
+      containers:
+      - name: support-foodanddrinksdb
+        image: mongo
+        env:
+        - name: TZ
+          value: Europe/Brussels
+        - name: MONGO_INITDB_DATABASE
+          value: foodanddrinks
+        command: ["mongod --port 27018"]
+        ports:
+        - containerPort: 27018

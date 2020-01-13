@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-ticketdb
+  labels:
+    app: support-ticketdb
+    chaos: immune
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-ticketdb
+  template:
+    metadata:
+      labels:
+        app: support-ticketdb
+    spec:
+      containers:
+      - name: support-ticketdb
+        image: postgres
+        env:
+        - name: POSTGRES_DB
+          value: Ticket
+        - name: POSTGRES_USER
+          value: root
+        - name: POSTGRES_PASSWORD
+          value: sysdes2
+        args: []
+        ports:
+        - containerPort: 5432

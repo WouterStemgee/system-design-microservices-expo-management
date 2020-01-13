@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-web
+  labels:
+    app: support-web
+    chaos: immune
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-web
+  template:
+    metadata:
+      labels:
+        app: support-web
+    spec:
+      containers:
+      - name: support-web
+        image: wouterstemgee/front-end:0.0.1
+        ports:
+        - containerPort: 80
+

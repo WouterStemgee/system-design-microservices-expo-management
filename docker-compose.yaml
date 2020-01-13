@@ -17,13 +17,13 @@ services:
     ports:
       - 9092:9092
 
-  support-parkingdb:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      - MYSQL_ROOT_PASSWORD=sysdes2
-      - MYSQL_DATABASE=Parking
-      - TZ=Europe/Brussels
+  # support-parkingdb:
+  #   image: mysql:5.7
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=sysdes2
+  #     - MYSQL_DATABASE=Parking
+  #     - TZ=Europe/Brussels
 
   support-ticketdb:
     image: postgres
@@ -31,64 +31,85 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=sysdes2
       - POSTGRES_DB=Ticket
+    ports:
+      - 5432:5432
 
-  support-halldb:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
+  support-badgedb:
+    image: postgres
     environment:
-      - MYSQL_ROOT_PASSWORD=sysdes2
-      - MYSQL_DATABASE=Hall
-      - TZ=Europe/Brussels
-  
-  support-eventdb:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Badge
+    command: -p 5433
+    ports:
+      - 5433:5433
+
+  support-foodanddrinksdb:
     image: mongo
     environment:
+      - MONGO_INITDB_DATABASE=foodanddrinks
       - TZ=Europe/Brussels
+    command: mongod --port 27018
+    ports:
+      - 27018:27018
+
+  # support-halldb:
+  #   image: mysql:5.7
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=sysdes2
+  #     - MYSQL_DATABASE=Hall
+  #     - TZ=Europe/Brussels
+  
+  # support-eventdb:
+  #   image: mongo
+  #   environment:
+  #     - TZ=Europe/Brussels
 
 # -------------Main services---------------
 
-  service-event-reservation:
-    build: 
-      context: ../event-reservation
-    links:
-      - support-kafka
-      - support-zookeeper
-      - service-hall-management
-      - service-parking
-    depends_on:
-      - support-kafka
-      - support-zookeeper
-      - service-hall-management
-      - service-parking
+  # service-event-reservation:
+  #   build: 
+  #     context: ../event-reservation
+  #   links:
+  #     - support-kafka
+  #     - support-zookeeper
+  #     - service-hall-management
+  #     - service-parking
+  #   depends_on:
+  #     - support-kafka
+  #     - support-zookeeper
+  #     - service-hall-management
+  #     - service-parking
 
-  service-event-management:
-    build: 
-      context: ../event-management
-    links:
-      - support-eventdb
-      - support-kafka
-      - support-zookeeper
-    depends_on:
-      - support-eventdb
-      - support-kafka
-      - support-zookeeper
+  # service-event-management:
+  #   build: 
+  #     context: ../event-management
+  #   links:
+  #     - support-eventdb
+  #     - support-kafka
+  #     - support-zookeeper
+  #   depends_on:
+  #     - support-eventdb
+  #     - support-kafka
+  #     - support-zookeeper
  
-  service-hall-management:
-    build: 
-      context: ../hall-management
-    links:
-      - support-halldb
-    depends_on:
-      - support-halldb
+  # service-hall-management:
+  #   build: 
+  #     context: ../hall-management
+  #   links:
+  #     - support-halldb
+  #   depends_on:
+  #     - support-halldb
 
 
-  service-parking:
-    build: 
-      context: ../parking
-    links:
-      - support-parkingdb
-    depends_on:
-      - support-parkingdb
+  # service-parking:
+  #   build: 
+  #     context: ../parking
+  #   links:
+  #     - support-parkingdb
+  #   depends_on:
+  #     - support-parkingdb
 
   service-ticket:
     build:
@@ -101,19 +122,45 @@ services:
       - support-ticketdb
       - support-kafka
       - support-zookeeper
-
-  service-api-gateway:
-    build: 
-      context: ../api-gateway
-    links:
-      - service-event-management
-      - service-event-reservation
-      - service-hall-management
-      - service-parking
-    depends_on:
-      - service-event-management
-      - service-event-reservation
-      - service-hall-management
-      - service-parking
     ports:
-      - 8080:8080
+      - 2123:2123
+
+  service-badge:
+    build:
+      context: ../badge
+    links:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+    ports:
+      - 2124:2124
+
+  service-food-and-drinks:
+    build:
+      context: ../drinks-and-food
+    links:
+      - support-foodanddrinksdb
+    depends_on:
+      - support-foodanddrinksdb
+    ports:
+      - 2125:2125
+
+  # service-api-gateway:
+  #   build: 
+  #     context: ../api-gateway
+  #   links:
+  #     - service-event-management
+  #     - service-event-reservation
+  #     - service-hall-management
+  #     - service-parking
+  #   depends_on:
+  #     - service-event-management
+  #     - service-event-reservation
+  #     - service-hall-management
+  #     - service-parking
+  #   ports:
+  #     - 8080:8080
