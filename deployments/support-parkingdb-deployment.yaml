@@ -25,7 +25,5 @@ spec:
           value: sysdes2
         - name: TZ
           value: Europe/Brussels
-        command: ["mysqld --default-authentication-plugin=mysql_native_password"]
-        args: []
         ports:
         - containerPort: 3306

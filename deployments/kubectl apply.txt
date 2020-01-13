@@ -1,0 +1,1 @@
+kubectl apply -f service-event-management-deployment.yaml,service-event-reservation-deployment.yaml,service-parking-deployment.yaml,support-eventdb-deployment.yaml,support-eventdb-deployment.yaml,support-kafka-deployment.yaml,support-parkingdb-deployment.yaml,support-web-deployment.yaml,support-zookeeper-deployment.yaml,service-api-gateway-deployment.yaml

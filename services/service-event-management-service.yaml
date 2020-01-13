@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-event-management
+spec:
+  selector:
+    app: service-event-management
+  ports:
+  - port: 2121

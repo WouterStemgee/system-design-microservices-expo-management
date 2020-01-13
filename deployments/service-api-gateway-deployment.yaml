@@ -18,4 +18,5 @@ spec:
       - name: service-api-gateway
         image: wouterstemgee/api-gateway:0.0.1
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
