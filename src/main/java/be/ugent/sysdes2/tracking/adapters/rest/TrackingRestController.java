@@ -12,7 +12,7 @@ import be.ugent.sysdes2.tracking.domain.Task;
 import be.ugent.sysdes2.tracking.domain.TrackingService;
 
 @RestController
-@RequestMapping("/reception")
+@RequestMapping("/tracking")
 public class TrackingRestController {
     private TrackingService trackingService;
 
