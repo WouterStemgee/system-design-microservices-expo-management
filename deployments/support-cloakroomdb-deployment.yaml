@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -7,7 +7,9 @@ metadata:
   name: support-cloakroomdb
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app: support-cloakroomdb
   template:
     metadata:
       labels:
@@ -26,6 +28,5 @@ spec:
           value: Europe/Brussels
         image: mongo
         name: support-cloakroomdb
-        resources: {}
-      restartPolicy: Always
-status: {}
+        ports:
+          - containerPort: 27017

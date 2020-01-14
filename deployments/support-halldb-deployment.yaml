@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -7,7 +7,9 @@ metadata:
   name: support-halldb
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app: support-halldb
   template:
     metadata:
       labels:
@@ -26,6 +28,6 @@ spec:
           value: Europe/Brussels
         image: mysql:5.7
         name: support-halldb
-        resources: {}
-      restartPolicy: Always
-status: {}
+        ports:
+          - containerPort: 3306
+

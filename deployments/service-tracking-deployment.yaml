@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,18 +6,17 @@ metadata:
   name: service-tracking
 spec:
   replicas: 3
-  strategy: {}
+  selector:
+    matchLabels:
+      app: service-tracking
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: service-tracking
     spec:
       containers:
       - image: tarikatac/tracking:0.0.1
         name: service-tracking
-        resources: {}
         ports:
           - containerPort: 2130
-      restartPolicy: Always
-status: {}
+

@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,18 +6,17 @@ metadata:
   name: service-hall-management
 spec:
   replicas: 3
-  strategy: {}
+  selector:
+    matchLabels:
+      app: service-hall-management
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: service-hall-management
     spec:
       containers:
       - image: tarikatac/hallmanagement:0.0.1
         name: service-hall-management
-        resources: {}
         ports:
           - containerPort: 2129
-      restartPolicy: Always
-status: {}
+

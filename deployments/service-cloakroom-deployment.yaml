@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,7 +6,9 @@ metadata:
   name: service-cloakroom
 spec:
   replicas: 3
-  strategy: {}
+  selector:
+    matchLabels:
+      app: service-cloakroom
   template:
     metadata:
       labels:
@@ -15,8 +17,5 @@ spec:
       containers:
       - image: tarikatac/cloakroom:0.0.1
         name: service-cloakroom
-        resources: {}
         ports:
           - containerPort: 2126
-      restartPolicy: Always
-status: {}
