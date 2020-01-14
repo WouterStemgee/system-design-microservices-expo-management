@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-multimedia
+spec:
+  selector:
+    app: service-multimedia
+  ports:
+  - port: 2127
