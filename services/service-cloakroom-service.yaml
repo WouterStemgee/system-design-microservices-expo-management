@@ -6,4 +6,4 @@ spec:
   selector:
     app: service-hall-cloakroom
   ports:
-  - port: 2121
+  - port: 2126

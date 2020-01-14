@@ -1,25 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\School\J2\sys_design\project\docker\t\kompose.exe convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
-    io.kompose.service: service-hall-management
+    app: service-hall-management
   name: service-hall-management
 spec:
-  replicas: 1
+  replicas: 3
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: service-hall-management
+        app: service-hall-management
     spec:
       containers:
       - image: tarikatac/hallmanagement:0.0.1
         name: service-hall-management
         resources: {}
+        ports:
+          - containerPort: 2129
       restartPolicy: Always
 status: {}

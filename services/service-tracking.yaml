@@ -6,4 +6,4 @@ spec:
   selector:
     app: service-tracking
   ports:
-  - port: 2121
+  - port: 2130
