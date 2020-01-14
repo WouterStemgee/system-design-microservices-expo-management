@@ -64,5 +64,19 @@
   <mat-tab label="Food and Drinks">Food and Drinks</mat-tab>
   <mat-tab label="Cloakroom">Cloakroom</mat-tab>
   <mat-tab label="Multimedia">Multimedia</mat-tab>
+    
   <mat-tab label="Security">Security</mat-tab>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-radio-group aria-label="Select the type of emergency" [(ngModel)]="type">
+          <mat-radio-button value="FIRE"<Fire</mat-radio-button>
+          <mat-radio-button value="NUCLEAR_ATTACK">Nuclear Attack 2</mat-radio-button>
+          <mat-radio-button value="CO">CO2</mat-radio-button>
+          <mat-radio-button value="MANUAL">Manual emergency</mat-radio-button>
+      </mat-radio-group>
+    </mat-form-field>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="triggerEmergency()">Send Emergency</button>
 </mat-tab-group>
