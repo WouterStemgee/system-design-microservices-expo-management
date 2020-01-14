@@ -31,4 +31,10 @@ public class MultimediaRestController {
         return boards;
     }
 
+    @PostMapping("/createMessageBoard")
+    public void createMessageboard(@RequestParam("message") String message) {
+        messageBoardService.createMessageBoard(message);
+    }
+
+
 }
