@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\School\J2\sys_design\project\docker\t\kompose.exe convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: service-cloakroom
+  name: service-cloakroom
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: service-cloakroom
+    spec:
+      containers:
+      - image: tarikatac/cloakroom:0.0.1
+        name: service-cloakroom
+        resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\School\J2\sys_design\project\docker\t\kompose.exe convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: support-halldb
+  name: support-halldb
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: support-halldb
+    spec:
+      containers:
+      - args:
+        - --default-authentication-plugin=mysql_native_password
+        env:
+        - name: MYSQL_DATABASE
+          value: Hall
+        - name: MYSQL_ROOT_PASSWORD
+          value: sysdes2
+        - name: TZ
+          value: Europe/Brussels
+        image: mysql:5.7
+        name: support-halldb
+        resources: {}
+      restartPolicy: Always
+status: {}
