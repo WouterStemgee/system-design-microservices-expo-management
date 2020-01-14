@@ -223,9 +223,9 @@ export class HttpService {
   }
 
   // Security
-  triggerEmergency(type) {
+  triggerEmergency(type,severity,source) {
     const params = new HttpParams()
-      .set('type', startDate)
+      .set('type', type)
       .set('severity', severity)
       .set('source', source);
      return new Promise((resolve, reject) => {
