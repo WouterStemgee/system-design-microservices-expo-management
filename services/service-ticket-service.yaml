@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-ticket
+spec:
+  selector:
+    app: service-ticket
+  ports:
+  - port: 2123
