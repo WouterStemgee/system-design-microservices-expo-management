@@ -1,21 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\School\J2\sys_design\project\docker\t\kompose.exe convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
-    io.kompose.service: support-cloakroomdb
+    chaos: immune
+    app: support-cloakroomdb
   name: support-cloakroomdb
 spec:
   replicas: 1
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: support-cloakroomdb
+        chaos: immune
+        app: support-cloakroomdb
     spec:
       containers:
       - args:
