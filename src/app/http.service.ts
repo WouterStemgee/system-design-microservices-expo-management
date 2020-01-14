@@ -207,8 +207,37 @@ export class HttpService {
   removeCloakroomItem() {}
 
   // Multimedia
-  updateInformationBoards() {}
+  updateInformationBoards(message) {
+    const params = new HttpParams().set('message',message);
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/multimedia/postMessageToAll',{params})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
 
   // Security
-  triggerEmergency() {}
+  triggerEmergency(type) {
+    const params = new HttpParams()
+      .set('type', startDate)
+      .set('severity', severity)
+      .set('source', source);
+     return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/security/emergency',{params})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
 }
