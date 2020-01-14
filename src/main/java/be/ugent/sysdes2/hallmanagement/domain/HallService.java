@@ -1,5 +1,6 @@
 package be.ugent.sysdes2.hallmanagement.domain;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class HallService {
     }
 
     public boolean datesAvailable(LocalDate start, LocalDate end) throws DateNotAvailableException{
-        if(hallReservationRepository.getBetweenDates(start, end).size() == 0) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        if(hallReservationRepository.getBetweenDates(format.format(start), format.format(end)).size() == 0) {
             return true;
         }
 

@@ -26,14 +26,10 @@ import be.ugent.sysdes2.hallmanagement.persistence.HallReservationRepository;
 public class HallManagementRestController {
     private static Logger logger = LoggerFactory.getLogger(HallManagementRestController.class);
 
-    private HallReservationRepository hallReservationRepository;
-    private HallRepository hallRepository;
-    private HallService hallService;
-
     @Autowired
-    private HallManagementRestController(HallReservationRepository hallReservationRepository, HallRepository hallRepository, HallService hallService) {
-        this.hallReservationRepository = hallReservationRepository;
-        this.hallRepository = hallRepository;
+    private HallService hallService;
+    
+    private HallManagementRestController(HallService hallService) {
         this.hallService = hallService;
     }
 
@@ -49,9 +45,12 @@ public class HallManagementRestController {
     }
 
     @GetMapping("/availability")
-    public boolean getAvailability(@RequestParam("startDate") LocalDate startDate, @RequestParam("startDate") LocalDate endDate, @RequestParam("hall") Integer hallId) throws HallIdDoesNotExistsException {
-        if(!hallService.checkHallId(hallId)) {
-            throw new HallIdDoesNotExistsException("hall id: " + hallId);
+    public boolean getAvailability(@RequestParam("startDate") LocalDate startDate, @RequestParam("startDate") LocalDate endDate, @RequestParam("halls") List<Integer> hallIds) throws HallIdDoesNotExistsException {
+        for(int hallId : hallIds) {
+            if(!hallService.checkHallId(hallId)) {
+                throw new HallIdDoesNotExistsException("hall id: " + hallId);
+            }
+            hallService.datesAvailable(startDate, endDate);
         }
 
         return hallService.datesAvailable(startDate, endDate);

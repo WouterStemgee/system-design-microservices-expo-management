@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "reservations")
 public class HallReservation {
 
     @Id @GeneratedValue
