@@ -92,15 +92,14 @@
           <mat-radio-button value="MANUAL">Manual emergency</mat-radio-button>
       </mat-radio-group>
     </mat-form-field>
-    <br>
-    <br>
     <mat-form-field>
         <input matInput placeholder="Severity" [(ngModel)]="severity">
     </mat-form-field>
-    <br>
-    <br>
+
     <mat-form-field>
         <input matInput placeholder="Source" [(ngModel)]="source">
     </mat-form-field>
+    <br>
+    <br>
     <button mat-raised-button color="primary" (click)="triggerEmergency()">Send Emergency</button>
 </mat-tab-group>
