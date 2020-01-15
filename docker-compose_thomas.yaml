@@ -32,18 +32,27 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=sysdes2
       - POSTGRES_DB=Badge
-    command: -p 5433
+    #command: -p 5433
     ports:
-      - 5433:5433
+      - 5432:5432
 
   support-foodanddrinksdb:
     image: mongo
     environment:
       - MONGO_INITDB_DATABASE=foodanddrinks
       - TZ=Europe/Brussels
-    command: mongod --port 27018
+    #command: mongod --port 27018
     ports:
-      - 27018:27018
+      - 27017:27017
+
+  support-web:
+    image: wouterstemgee/front-end:0.0.1
+    build:
+      context: ../front-end
+    labels:
+      - chaos=immune
+    ports:
+      - 8081:80
 
 # -------------Main services---------------
 
@@ -77,7 +86,7 @@ services:
 
   service-food-and-drinks:
     build:
-      context: ../drinks-and-food
+      context: ../food-and-drinks
     links:
       - support-foodanddrinksdb
     depends_on:
@@ -85,18 +94,15 @@ services:
     ports:
       - 2125:2125
 
-  # service-api-gateway:
-  #   build: 
-  #     context: ../api-gateway
-  #   links:
-  #     - service-event-management
-  #     - service-event-reservation
-  #     - service-hall-management
-  #     - service-parking
-  #   depends_on:
-  #     - service-event-management
-  #     - service-event-reservation
-  #     - service-hall-management
-  #     - service-parking
-  #   ports:
-  #     - 8080:8080
+  service-api-gateway:
+    image: wouterstemgee/api-gateway:0.0.1
+    links:
+      - service-ticket
+      - service-badge
+      - service-food-and-drinks
+    depends_on:
+      - service-ticket
+      - service-badge
+      - service-food-and-drinks
+    ports:
+      - 8080:8080

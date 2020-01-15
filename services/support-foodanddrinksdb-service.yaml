@@ -6,4 +6,4 @@ spec:
   selector:
     app: support-foodanddrinksdb
   ports:
-  - port: 27018
+  - port: 27017

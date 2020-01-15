@@ -6,4 +6,4 @@ spec:
   selector:
     app: support-badgedb
   ports:
-  - port: 5433
+  - port: 5432

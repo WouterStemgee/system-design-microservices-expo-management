@@ -26,4 +26,4 @@ spec:
         - name: POSTGRES_PASSWORD
           value: sysdes2
         ports:
-        - containerPort: 5433
+        - containerPort: 5432
