@@ -73,7 +73,14 @@
   <mat-tab label="Food and Drinks">Food and Drinks</mat-tab>
   <mat-tab label="Cloakroom">Cloakroom</mat-tab>
   <mat-tab label="Multimedia">Multimedia</mat-tab>
-    
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Message" [(ngModel)]="message">
+    </mat-form-field>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="updateInformationboards()">Update informationboards!</button>
   <mat-tab label="Security">Security</mat-tab>
     <br>
     <br>
@@ -87,5 +94,13 @@
     </mat-form-field>
     <br>
     <br>
+    <mat-form-field>
+        <input matInput placeholder="Severity" [(ngModel)]="severity">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Source" [(ngModel)]="source">
+    </mat-form-field>
     <button mat-raised-button color="primary" (click)="triggerEmergency()">Send Emergency</button>
 </mat-tab-group>
