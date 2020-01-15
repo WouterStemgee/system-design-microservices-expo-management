@@ -229,9 +229,41 @@ export class AppComponent {
   removeCloakroomItem() {}
 
   // =========================== Multimedia ===========================
-  updateInformationBoards() {}
+  updateInformationBoards() {
+    this.http.exitParking(this.parkingTicketId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Security ===========================
-  triggerEmergency() {}
+  triggerEmergency() {
+    this.http.triggerEmergency(this.type,this.severity,this.source)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
 }
