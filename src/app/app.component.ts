@@ -23,6 +23,10 @@ export class AppComponent {
   hallList = ['hall1', 'hall2', 'hall3', 'hall4', 'hall5', 'hall6'];
   eventId = '5dfe00ea2eada541a1044540';
   parkingTicketId = '1';
+  message= 'Welkom';
+  type='FIRE';
+  severity='1';
+  source='Brandweer';
 
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
