@@ -5,6 +5,7 @@ import be.ugent.sysdev2.multimedia.domain.MessageBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("multimedia")
 public class MultimediaRestController {

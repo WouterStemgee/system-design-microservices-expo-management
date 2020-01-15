@@ -24,10 +24,12 @@ public class MultimediaApplication {
 	}
 
 
-	/*@Bean
-	public CommandLineRunner testDatabase(MessageBoardService service) {
+	@Bean
+	public CommandLineRunner initializeDatabase(MessageBoardService service) {
 		return (args) -> {
 			service.createMessageBoard("FIRE");
+			service.createMessageBoard("NUCLEAR_ATTACK");
+			service.createMessageBoard("NUCLEAR_ATTACK");
 			service.createMessageBoard("NUCLEAR_ATTACK");
 
 			Iterable<MessageBoard> boards= service.getAllMessageBoards();
@@ -36,5 +38,5 @@ public class MultimediaApplication {
 			}
 			logger.info("After loop");
 		};
-	}*/
+	}
 }
