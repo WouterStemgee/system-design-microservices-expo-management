@@ -74,9 +74,9 @@ export class AppComponent {
         }
         return err.error.message;
       }
-      return err.error;
+      return err.error.toString();
     }
-    return err;
+    return err.toString();
   }
 
   // =========================== Event Reservation ===========================

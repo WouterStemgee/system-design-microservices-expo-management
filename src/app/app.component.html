@@ -1,5 +1,8 @@
 <mat-tab-group color="primary" backgroundColor="accent">
   <mat-tab label="Event Reservation">
+      <mat-label>Om een evenement te reserveren dient de beschikbaarheid gecontroleerd te worden. Er zijn een maximum van 500 parkeerplaatsen voorzien als capaciteit van de parking, meerdere evenement reserveringen die op dezelfde dag overlappen houden hier dus rekening mee. Verder wordt gecontroleerd of de gewenste hallen beschikbaar zijn op de aangegeven datums.</mat-label>
+      <br>
+      <br>
       <mat-form-field>
         <input matInput [matDatepicker]="startDatePicker" placeholder="Event start date" [formControl]="templateDate" (dateChange)="onStartDateChange($event.value)">
         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
@@ -36,6 +39,9 @@
       <button mat-raised-button color="primary" (click)="createReservation()">Create Reservation</button>
   </mat-tab>
   <mat-tab label="Event Management">
+    <mat-label>Er kan informatie opgevraagd worden over een gepland evenement aan de hand van de unieke evenement identificatie. Wanneer een evenement is afgelopen kan deze beëindigd worden zodat de afbraak voortgang opgevolgd kan worden via Tracking.</mat-label>
+    <br>
+    <br>
     <mat-form-field>
       <input matInput placeholder="Event ID" [(ngModel)]="eventId">
     </mat-form-field>
@@ -46,6 +52,9 @@
     <button mat-raised-button color="primary" (click)="endEvent()">End Event</button>
   </mat-tab>
   <mat-tab label="Parking">
+    <mat-label>Om de parking te betreden dient aan de ingang een nieuw parkeerticket aangevraagd te worden, vervolgens wordt een nieuw parkeerticket aangemaakt. Om de parking te verlaten dient het parkeerticket eerst gevalideerd te worden om vervolgens aan de slagboom de parking met een gevalideerd parkeerticket te verlaten.</mat-label>
+    <br>
+    <br>
     <button mat-raised-button color="primary" (click)="createParkingTicket()">Create Parking Ticket</button>
     <br>
     <br>

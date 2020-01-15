@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiGatewayUri: 'http://cluster_master_node_ip:8080'
+  apiGatewayUri: 'http://localhost:8080'
 };
