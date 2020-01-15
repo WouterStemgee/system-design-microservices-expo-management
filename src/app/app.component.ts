@@ -214,7 +214,23 @@ export class AppComponent {
   updateProgress() {}
 
   // =========================== Ticket ===========================
-  getTicketAvailability() {}
+  getTicketAvailability() {
+    this.http.getTicketAvailability(1)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
   buyTicket() {}
   validateTicket() {}
 
