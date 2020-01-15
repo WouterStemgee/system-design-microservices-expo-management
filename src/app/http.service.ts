@@ -118,7 +118,7 @@ export class HttpService {
   // Ticket
   getTicketAvailability(eventId) {
     return new Promise((resolve, reject) => {
-      this.http.get(environment.apiGatewayUri + '/ticket/' + eventId + '/availability',{})
+      this.http.get(environment.apiGatewayUri + '/ticket/' + eventId + '/availability', {})
         .subscribe(
           result => {
             resolve(result);
@@ -132,7 +132,7 @@ export class HttpService {
   buyTicket(eventId, name, numberOfTickets) {
     return new Promise((resolve, reject) => {
       this.http.post(environment.apiGatewayUri + '/ticket/buy',
-      {eventId,name,numberOfTickets})
+      {eventId, name, numberOfTickets})
         .subscribe(
           result => {
             resolve(result);
@@ -146,7 +146,7 @@ export class HttpService {
   payTicket(eventId, name, numberOfTickets, totalPrice) {
     return new Promise((resolve, reject) => {
       this.http.post(environment.apiGatewayUri + '/ticket/pay',
-      {eventId,name,numberOfTickets,totalPrice})
+      {eventId, name, numberOfTickets, totalPrice})
         .subscribe(
           result => {
             resolve(result);
@@ -159,7 +159,7 @@ export class HttpService {
   }
   validateTicket(ticketId) {
     return new Promise((resolve, reject) => {
-      this.http.put(environment.apiGatewayUri + '/ticket/' + ticketId + '/validate',{})
+      this.http.put(environment.apiGatewayUri + '/ticket/' + ticketId + '/validate', {})
         .subscribe(
           result => {
             resolve(result);
@@ -172,9 +172,9 @@ export class HttpService {
   }
 
   // Badge
-  rechargeBadge(badgeId,amount) {
+  rechargeBadge(badgeId, amount) {
     return new Promise((resolve, reject) => {
-      this.http.put(environment.apiGatewayUri + '/badge/' + badgeId + '/recharge',{amount})
+      this.http.put(environment.apiGatewayUri + '/badge/' + badgeId + '/recharge', {amount})
         .subscribe(
           result => {
             resolve(result);
@@ -190,7 +190,7 @@ export class HttpService {
   createOrder(eventId, badgeId, lineItems) {
     return new Promise((resolve, reject) => {
       this.http.post(environment.apiGatewayUri + '/food_and_drinks',
-      {eventId,badgeId,lineItems})
+      {eventId, badgeId, lineItems})
         .subscribe(
           result => {
             resolve(result);
@@ -208,9 +208,9 @@ export class HttpService {
 
   // Multimedia
   updateInformationBoards(message) {
-    const params = new HttpParams().set('message',message);
+    const params = new HttpParams().set('message', message);
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiGatewayUri + '/multimedia/postMessageToAll',{params})
+      this.http.post(environment.apiGatewayUri + '/multimedia/postMessageToAll', {params})
         .subscribe(
           result => {
             resolve(result);
@@ -223,13 +223,13 @@ export class HttpService {
   }
 
   // Security
-  triggerEmergency(type,severity,source) {
+  triggerEmergency(type, severity, source) {
     const params = new HttpParams()
       .set('type', type)
       .set('severity', severity)
       .set('source', source);
-     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiGatewayUri + '/security/emergency',{params})
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/security/emergency', {params})
         .subscribe(
           result => {
             resolve(result);

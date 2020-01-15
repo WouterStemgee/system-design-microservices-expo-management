@@ -12,7 +12,10 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class AppComponent {
   title = 'Uitbating evenementencomplex';
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onAlertEvent = new EventEmitter<any>();
 
+  // Reservation
   startDate: any;
   endDate: any;
   visitors = '2000';
@@ -21,8 +24,20 @@ export class AppComponent {
   halls = new FormControl([]);
   templateDate = new FormControl(new Date());
   hallList = ['hall1', 'hall2', 'hall3', 'hall4', 'hall5', 'hall6'];
+
+  // Event Management
   eventId = '5dfe00ea2eada541a1044540';
+
+  // Parking
   parkingTicketId = '1';
+
+  // Multimedia
+  message = 'Welkom';
+
+  // Security
+  type = 'FIRE';
+  severity = '1';
+  source = 'Brandweer';
 
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
@@ -48,8 +63,6 @@ export class AppComponent {
       );
   }
 
-  @Output() onAlertEvent = new EventEmitter<any>();
-
   // =========================== View Logic ===========================
   onStartDateChange(value) {
     const d = new Date(value);
@@ -74,9 +87,9 @@ export class AppComponent {
         }
         return err.error.message;
       }
-      return err.error;
+      return err.error.toString();
     }
-    return err;
+    return err.toString();
   }
 
   // =========================== Event Reservation ===========================
@@ -245,9 +258,41 @@ export class AppComponent {
   removeCloakroomItem() {}
 
   // =========================== Multimedia ===========================
-  updateInformationBoards() {}
+  updateInformationBoards() {
+    this.http.updateInformationBoards(this.message)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+
 
   // =========================== Security ===========================
-  triggerEmergency() {}
-
+  triggerEmergency() {
+    this.http.triggerEmergency(this.type, this.severity, this.source)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 }

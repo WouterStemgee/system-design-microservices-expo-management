@@ -4,13 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  DateAdapter, MAT_DATE_FORMATS,
+  MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   MatButtonModule,
   MatButtonToggleModule,
   MatDatepickerModule,
   MatInputModule,
-  MatNativeDateModule, MatSelectModule,
+  MatNativeDateModule, MatRadioModule, MatSelectModule,
   MatTabsModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -36,7 +36,8 @@ import {ToastrModule} from 'ngx-toastr';
     MatTabsModule,
     MatButtonModule,
     MatSelectModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatRadioModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'},
