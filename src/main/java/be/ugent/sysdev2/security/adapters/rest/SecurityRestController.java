@@ -7,7 +7,7 @@ import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.web.bind.annotation.*;
 import be.ugent.sysdev2.security.domain.Emergency;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("security")
 public class SecurityRestController {
