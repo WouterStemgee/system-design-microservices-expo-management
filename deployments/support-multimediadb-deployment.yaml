@@ -20,7 +20,7 @@ spec:
         image: mysql:5.7
         env:
         - name: MYSQL_DATABASE
-          value: Parking
+          value: messageboard
         - name: MYSQL_ROOT_PASSWORD
           value: sysdes2
         - name: TZ
