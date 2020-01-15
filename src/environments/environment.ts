@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiGatewayUri: 'http://192.168.99.103:31186'
+  apiGatewayUri: 'http://localhost:8080'
 };
 
 /*

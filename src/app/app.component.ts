@@ -259,25 +259,7 @@ export class AppComponent {
         });
       });
   }
-  
-  createInformationBoard(){
-    this.http.createInformationBoard(this.message)
-      .then(result => {
-        this.onAlertEvent.emit({
-          title: 'Success',
-          message: result,
-          type: 'success'
-        });
-      })
-      .catch(err => {
-        this.onAlertEvent.emit({
-          title: 'Error',
-          message: this.error(err),
-          type: 'error'
-        });
-      });
-  }
-  createNewInformationBoard() {}
+
 
   // =========================== Security ===========================
   triggerEmergency() {
