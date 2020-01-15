@@ -8,10 +8,14 @@ import org.springframework.messaging.SubscribableChannel;
 public interface Channels {
 
     static final String EVENT_CREATED = "event_created";
+    static final String EVENT_ENDED = "event_ended";
     static final String TICKET_VALIDATED = "ticket_validated";
 
     @Input(EVENT_CREATED)
     SubscribableChannel createEvent();
+
+    @Input(EVENT_ENDED)
+    SubscribableChannel deleteEvent();
 
     @Output(TICKET_VALIDATED)
     MessageChannel ticketValidated();

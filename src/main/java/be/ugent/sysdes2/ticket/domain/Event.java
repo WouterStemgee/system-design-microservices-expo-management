@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Event {
 
     @Id
-    private final String eventId;
+    private String eventId;
     private int availableTickets;
     private float price;
 
@@ -37,7 +37,15 @@ public class Event {
         return price;
     }
 
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
     public void setAvailableTickets(int availableTickets) {
         this.availableTickets = availableTickets;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

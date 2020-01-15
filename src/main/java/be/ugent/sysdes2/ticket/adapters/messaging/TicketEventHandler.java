@@ -1,6 +1,7 @@
 package be.ugent.sysdes2.ticket.adapters.messaging;
 
 import be.ugent.sysdes2.ticket.domain.Event;
+import be.ugent.sysdes2.ticket.domain.EventDetails;
 import be.ugent.sysdes2.ticket.domain.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,15 @@ public class TicketEventHandler {
     }
 
     @StreamListener(Channels.EVENT_CREATED)
-    public void createEvent(Event event) {
+    public void createEvent(EventDetails eventDetails) {
+        Event event = new Event(eventDetails.getEventId(),eventDetails.getMaxVisitors(),eventDetails.getTicketPrice());
         this.ticketService.createEvent(event);
         logger.info("Event created! EventId: " + event.getEventId());
+    }
+
+    @StreamListener(Channels.EVENT_ENDED)
+    public void deleteEvent(EventDetails eventDetails) {
+        this.ticketService.deleteEvent(eventDetails.getEventId());
+        logger.info("Event deleted! Eventid: " + eventDetails.getEventId());
     }
 }

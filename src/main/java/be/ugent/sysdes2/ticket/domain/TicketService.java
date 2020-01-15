@@ -41,6 +41,10 @@ public class TicketService {
         this.eventRepository.save(event);
     }
 
+    public void deleteEvent(String eventId) {
+        this.eventRepository.deleteById(eventId);
+    }
+
     public PayRequest buyTicket(BuyRequest buyRequest) throws NotEnoughTicketsException, EventNotFoundException {
         Event event = this.eventRepository.findById(buyRequest.getEventId()).orElse(null);
         if(event != null){
