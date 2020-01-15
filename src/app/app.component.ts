@@ -234,7 +234,25 @@ export class AppComponent {
 
   // =========================== Multimedia ===========================
   updateInformationBoards() {
-    this.http.exitParking(this.parkingTicketId)
+    this.http.updateInformationBoards(this.message)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  
+  createInformationBoard(){
+    this.http.createInformationBoard(this.message)
       .then(result => {
         this.onAlertEvent.emit({
           title: 'Success',
