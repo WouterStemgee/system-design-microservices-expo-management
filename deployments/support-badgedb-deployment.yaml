@@ -25,7 +25,5 @@ spec:
           value: root
         - name: POSTGRES_PASSWORD
           value: sysdes2
-        command: ["-p 5433"]
-        args: []
         ports:
         - containerPort: 5433
