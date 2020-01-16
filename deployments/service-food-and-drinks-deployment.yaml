@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-food-and-drinks
-        image: thomasdevriese/food-and-drinks:0.0.1
+        image: thomasdevriese/food-and-drinks:latest
         ports:
         - containerPort: 2125
