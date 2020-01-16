@@ -28,6 +28,19 @@ export class AppComponent {
   // Event Management
   eventId = '5dfe00ea2eada541a1044540';
 
+  // Ticket
+  name = '';
+  numberOfTickets = 0;
+  totalPrice = 0;
+  ticketId = 0;
+
+  //Badge
+  badgeId = 0
+  amount = 0
+
+  //Food&drinks
+  lineItems = [{"amount":5,"productId":"1"},{"amount":3,"productId":"2"}]
+
   // Parking
   parkingTicketId = '1';
 
@@ -228,7 +241,7 @@ export class AppComponent {
 
   // =========================== Ticket ===========================
   getTicketAvailability() {
-    this.http.getTicketAvailability(1)
+    this.http.getTicketAvailability(this.eventId)
       .then(result => {
         this.onAlertEvent.emit({
           title: 'Success',
@@ -244,14 +257,97 @@ export class AppComponent {
         });
       });
   }
-  buyTicket() {}
-  validateTicket() {}
+  buyTicket() {
+    this.http.buyTicket(this.eventId,this.name,this.numberOfTickets)
+    .then(result => {
+      this.totalPrice = result['totalPrice'];
+      this.onAlertEvent.emit({
+        title: 'Success',
+        message: result,
+        type: 'success'
+      });
+    })
+    .catch(err => {
+      this.onAlertEvent.emit({
+        title: 'Error',
+        message: this.error(err),
+        type: 'error'
+      });
+    });
+  }
+  payTicket() {
+    this.http.payTicket(this.eventId,this.name,this.numberOfTickets,this.totalPrice)
+      .then(result => {
+        this.ticketId = result[0].ticketId;
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  validateTicket() {
+    this.http.validateTicket(this.ticketId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Badge ===========================
-  rechargeBadge() {}
+  rechargeBadge() {
+    this.http.rechargeBadge(this.badgeId, this.amount)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Food and Drinks ===========================
-  createOrder() {}
+  createOrder() {
+    this.http.createOrder(this.eventId,this.badgeId,this.lineItems)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Cloakroom ===========================
   addCloakroomItem() {}
