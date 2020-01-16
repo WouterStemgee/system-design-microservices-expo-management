@@ -26,7 +26,20 @@ export class AppComponent {
   hallList = ['hall1', 'hall2', 'hall3', 'hall4', 'hall5', 'hall6'];
 
   // Event Management
-  eventId = '5dfe00ea2eada541a1044540';
+  eventId = '5e207c9324d16a4bb0aaa391';
+
+  // Ticket
+  name = '';
+  numberOfTickets = 0;
+  totalPrice = 0;
+  ticketId = 0;
+
+  // Badge
+  badgeId = 0;
+  amount = 0;
+
+  // Food&drinks
+  lineItems = [{amount: 5, productId: '1'}, {amount: 3, productId: '2'}];
 
   // Parking
   parkingTicketId = '1';
@@ -118,6 +131,8 @@ export class AppComponent {
       console.log(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price);
       this.http.createReservation(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price)
         .then(result => {
+          // @ts-ignore
+          this.eventId = result.eventId;
           this.onAlertEvent.emit({
             title: 'Success',
             message: 'Reservation created!',
@@ -227,15 +242,115 @@ export class AppComponent {
   updateProgress() {}
 
   // =========================== Ticket ===========================
-  getTicketAvailability() {}
-  buyTicket() {}
-  validateTicket() {}
+  getTicketAvailability() {
+    this.http.getTicketAvailability(this.eventId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: JSON.stringify(result),
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  buyTicket() {
+    this.http.buyTicket(this.eventId, this.name, this.numberOfTickets)
+    .then(result => {
+      // @ts-ignore
+      this.totalPrice = result.totalPrice;
+      this.onAlertEvent.emit({
+        title: 'Success',
+        message: result,
+        type: 'success'
+      });
+    })
+    .catch(err => {
+      this.onAlertEvent.emit({
+        title: 'Error',
+        message: this.error(err),
+        type: 'error'
+      });
+    });
+  }
+  payTicket() {
+    this.http.payTicket(this.eventId, this.name, this.numberOfTickets, this.totalPrice)
+      .then(result => {
+        this.ticketId = result[0].ticketId;
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  validateTicket() {
+    this.http.validateTicket(this.ticketId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Badge ===========================
-  rechargeBadge() {}
+  rechargeBadge() {
+    this.http.rechargeBadge(this.badgeId, this.amount)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Food and Drinks ===========================
-  createOrder() {}
+  createOrder() {
+    this.http.createOrder(this.eventId, this.badgeId, this.lineItems)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Cloakroom ===========================
   addCloakroomItem() {}

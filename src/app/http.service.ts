@@ -189,7 +189,7 @@ export class HttpService {
   // Food and Drinks
   createOrder(eventId, badgeId, lineItems) {
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiGatewayUri + '/food_and_drinks',
+      this.http.post(environment.apiGatewayUri + '/food-and-drinks',
       {eventId, badgeId, lineItems})
         .subscribe(
           result => {

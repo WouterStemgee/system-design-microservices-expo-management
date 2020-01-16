@@ -68,9 +68,66 @@
     <button mat-raised-button color="primary" (click)="exitParking()">Exit Parking Ticket</button>
   </mat-tab>
   <mat-tab label="Tracking">Tracking</mat-tab>
-  <mat-tab label="Ticket">Ticket</mat-tab>
-  <mat-tab label="Badge">Badge</mat-tab>
-  <mat-tab label="Food and Drinks">Food and Drinks</mat-tab>
+  <mat-tab label="Ticket">
+    <mat-form-field>
+        <input matInput placeholder="EventId" [(ngModel)]="eventId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="getTicketAvailability()">Check Ticket Availability</button>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="name">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Number of tickets" [(ngModel)]="numberOfTickets">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="buyTicket()">Buy Tickets</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="payTicket()">Pay Tickets</button>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="TicketId" [(ngModel)]="ticketId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="validateTicket()">Validate Ticket</button>
+  </mat-tab>
+  <mat-tab label="Badge">
+    <mat-form-field>
+        <input matInput placeholder="BadgeId" [(ngModel)]="badgeId">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Amount" [(ngModel)]="amount">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="rechargeBadge()">Recharge badge</button>
+  </mat-tab>
+  <mat-tab label="Food and Drinks">
+      <mat-form-field>
+          <input matInput placeholder="EventId" [(ngModel)]="eventId">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+          <input matInput placeholder="BadgeId" [(ngModel)]="badgeId">
+      </mat-form-field>
+      <br>
+      <mat-label>
+        Products:
+      </mat-label>
+      <br>
+      <br>
+      <div *ngFor="let lineItem of lineItems">
+        <mat-label>ProductId: {{ lineItem.productId }}, amount: {{ lineItem.amount }}</mat-label>
+        <br>
+      </div>
+      <br>
+      <button mat-raised-button color="primary" (click)="createOrder()">Create Order</button>
+  </mat-tab>
   <mat-tab label="Cloakroom">Cloakroom</mat-tab>
   <mat-tab label="Multimedia">
     <br>
@@ -93,7 +150,7 @@
       <br>
       <mat-radio-button value="CO">CO2</mat-radio-button>
       <br>
-      <mat-radio-button value="MANUAL">Manual emergency</mat-radio-button>
+      <mat-radio-button value="MANUAL">Manual Emergency</mat-radio-button>
       <br>
     </mat-radio-group>
     <br>
