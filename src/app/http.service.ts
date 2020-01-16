@@ -208,28 +208,29 @@ export class HttpService {
 
   // Multimedia
   updateInformationBoards(message) {
-    const params = new HttpParams().set('message', message);
+	  const params = new HttpParams().set('message',message);
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiGatewayUri + '/multimedia/postMessageToAll', {params})
-        .subscribe(
-          result => {
-            resolve(result);
-          },
-          (error: HttpErrorResponse) => {
-            reject(error);
-          }
-        );
+      this.http.post(environment.apiGatewayUri + '/multimedia/postMessageToAll?'+params.toString() , {}).subscribe(
+        result => {
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          reject(error);
+        }
+      );
     });
   }
 
   // Security
   triggerEmergency(type, severity, source) {
+
     const params = new HttpParams()
       .set('type', type)
       .set('severity', severity)
       .set('source', source);
+	console.log(params.toString());
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiGatewayUri + '/security/emergency', {params})
+      this.http.post(environment.apiGatewayUri + '/security/emergency?'+params.toString(), {})
         .subscribe(
           result => {
             resolve(result);
