@@ -52,6 +52,11 @@ export class AppComponent {
   severity = '1';
   source = 'Brandweer';
 
+  // Cloakroom
+  crBadgeId = 0;
+  crItemId = 0;
+  crItems = [];
+
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
       this.onEndDateChange(this.templateDate.value);
@@ -353,8 +358,58 @@ export class AppComponent {
   }
 
   // =========================== Cloakroom ===========================
-  addCloakroomItem() {}
-  removeCloakroomItem() {}
+  addCloakroomItem() {
+    this.http.addCloakroomItem(this.crBadgeId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  removeCloakroomItem() {
+    this.http.removeCloakroomItem(this.crItemId)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  getAllCloakroomItems() {
+    this.http.getAllCloakroomItems()
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+        this.crItems = result as any[];
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
 
   // =========================== Multimedia ===========================
   updateInformationBoards() {

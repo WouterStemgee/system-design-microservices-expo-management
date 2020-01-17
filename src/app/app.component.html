@@ -128,7 +128,23 @@
       <br>
       <button mat-raised-button color="primary" (click)="createOrder()">Create Order</button>
   </mat-tab>
-  <mat-tab label="Cloakroom">Cloakroom</mat-tab>
+  <mat-tab label="Cloakroom">
+    <mat-form-field>
+      <input matInput placeholder="badgeId" [(ngModel)]="crBadgeId">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="addCloakroomItem()">Add cloakroom item</button>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="itemId" [(ngModel)]="crItemId">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="removeCloakroomItem()">Remove cloakroom item</button>
+    <br>
+    <button mat-raised-button color="primary" (click)="getAllCloakroomItems()">List all cloakroom items</button>
+    <div *ngFor="let crItem of crItems">
+      <mat-label>BadgeId: {{ crItem.badgeId }}, ItemId: {{ crItem.itemId }}</mat-label>
+      <br>
+    </div>
+  </mat-tab>
   <mat-tab label="Multimedia">
     <br>
     <br>

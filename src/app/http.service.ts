@@ -203,8 +203,47 @@ export class HttpService {
   }
 
   // Cloakroom
-  addCloakroomItem() {}
-  removeCloakroomItem() {}
+  addCloakroomItem(badgeId) {
+    return new Promise((resolve, reject) => {
+      this.http.put(environment.apiGatewayUri + '/cloakroom/item?badgeId='+badgeId,"")
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  removeCloakroomItem(itemId) {
+    return new Promise((resolve, reject) => {
+      this.http.delete(environment.apiGatewayUri + '/cloakroom/' + itemId)
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  getAllCloakroomItems() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiGatewayUri + '/cloakroom')
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
 
   // Multimedia
   updateInformationBoards(message) {
