@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,7 +66,7 @@ public class CloakroomRestController implements CloakroomListener {
 	}
 
     @GetMapping("/{badgeId}")
-    public Iterable<CloakroomItem> getCloakroomItemByBadgeId(@PathVariable("badgeId") String id) {
+    public Iterable<CloakroomItem> getCloakroomItemByBadgeId(@PathVariable(value="badgeId") String id) {
         try {
             int badgeId = Integer.parseInt(id);
             return this.cloakroomItemRepository.findByBadgeId(badgeId);
@@ -77,7 +78,7 @@ public class CloakroomRestController implements CloakroomListener {
 	}
 
     @DeleteMapping("/{itemId}")
-    public String removeCloakroomItem(@PathVariable("itemId") String id) throws ItemDoesNotExistsException {
+    public String removeCloakroomItem(@PathVariable(value="itemId") String id) throws ItemDoesNotExistsException {
         try {
             int itemId = Integer.parseInt(id);
             
@@ -95,7 +96,7 @@ public class CloakroomRestController implements CloakroomListener {
 	}
 
     @PutMapping("/item")
-    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@RequestBody int badgeId) {
+    public DeferredResult<CloakroomItem> handleAddCloakroomItem(@Param("badgeId") int badgeId) {
         logger.info("Received add item REQUEST");
         DeferredResult<CloakroomItem> deferredResult = new DeferredResult<>(10000l);
 
