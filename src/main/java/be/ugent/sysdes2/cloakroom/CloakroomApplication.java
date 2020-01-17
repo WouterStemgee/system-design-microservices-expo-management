@@ -22,19 +22,15 @@ public class CloakroomApplication {
 	}
 
 	@Bean
-	CommandLineRunner testRepository(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository)
+	CommandLineRunner init(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository)
 	{
 		return (args) -> {
-			// cloakroomItemRepository.save(new CloakroomItem(1,1));
-			// cloakroomItemRepository.save(new CloakroomItem(2,1));
-			// cloakroomItemRepository.save(new CloakroomItem(3,2));
-			// cloakroomItemRepository.save(new CloakroomItem(4,2));
-			// cloakroomItemRepository.save(new CloakroomItem(5,8));
-
-			//cloakroomSpaceRepository.save(new CloakroomSpace(100,100,1.5f));
-
 			CloakroomSpace cs = cloakroomSpaceRepository.getCloakroomSpace();
-			logger.info("{}/{} {}", cs.getAvailableSpaces(), cs.getTotalSpaces(), cs.getPricePerSpace());
+			if(cs == null) {
+				cloakroomSpaceRepository.save(new CloakroomSpace(100,100,1.5f));
+			} else {
+				logger.info("{}/{} {}", cs.getAvailableSpaces(), cs.getTotalSpaces(), cs.getPricePerSpace());
+			}			
 		};
 	}
 }

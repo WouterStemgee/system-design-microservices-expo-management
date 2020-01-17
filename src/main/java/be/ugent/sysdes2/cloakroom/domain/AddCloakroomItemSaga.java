@@ -26,11 +26,15 @@ public class AddCloakroomItemSaga {
     @Autowired
     private NextSequenceService nextSequenceService;
 
-	public AddCloakroomItemSaga(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository, NextSequenceService nextSequenceService) {
+    @Autowired
+    private BadgeProxy badgeProxy;
+
+	public AddCloakroomItemSaga(CloakroomItemRepository cloakroomItemRepository, CloakroomSpaceRepository cloakroomSpaceRepository, NextSequenceService nextSequenceService, BadgeProxy badgeProxy) {
         this.cloakroomItemRepository = cloakroomItemRepository;
         this.cloakroomSpaceRepository = cloakroomSpaceRepository;
         this.listeners = new ArrayList<CloakroomListener>();
         this.nextSequenceService = nextSequenceService;
+        this.badgeProxy = badgeProxy;
 	}
 
     public void registerListener(CloakroomListener listener) {
@@ -50,8 +54,12 @@ public class AddCloakroomItemSaga {
 
                 //request a balance update
                 float price = cs.getPricePerSpace();
-                // TODO: api call to update balance. What if api call failed or timeout?
-                this.onBalanceUpdate(cloakroomItem);
+                
+                if(badgeProxy.updateBalance(cloakroomItem.getBadgeId(), price)) {
+                    this.onBalanceUpdate(cloakroomItem);
+                } else {
+                    this.onBalanceUpdateFail(cloakroomItem);
+                }
             // } else {
             //     logger.info("Item already exists: {}/{}. ItemId {}, BadgeId failed to add", cs.getAvailableSpaces(), cs.getTotalSpaces(), cloakroomItem.getItemId(), cloakroomItem.getBadgeId());
             //     this.listeners.forEach(l -> l.onItemAddFail(cloakroomItem, CloakroomReason.ITEM_ALREADY_STORED));

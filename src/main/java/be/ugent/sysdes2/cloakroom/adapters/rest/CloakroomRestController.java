@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import be.ugent.sysdes2.cloakroom.persistence.ItemDoesNotExistsException;
 
 @RestController
 @RequestMapping("/cloakroom")
+@CrossOrigin
 public class CloakroomRestController implements CloakroomListener {
     private static Logger logger = LoggerFactory.getLogger(CloakroomRestController.class);
 
