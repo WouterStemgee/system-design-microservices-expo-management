@@ -25,10 +25,8 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 [Tracking](https://hub.docker.com/r/tarikatac/tracking),
 [Cloakroom](https://hub.docker.com/r/tarikatac/cloakroom)
 
-1. De services kunnen opnieuw gebuild worden door deze met maven opnieuw te compileren:
-  - `mvn package -DskipTests`
-2. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository.
-  - `docker build -t <image:tag> .`
+1. De services kunnen opnieuw gebuild worden met Maven: `mvn package -DskipTests`
+2. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository: `docker build -t <image:tag> .`
 
 ## Deployment
 ## Testing
