@@ -15,7 +15,7 @@ spec:
         app: service-hall-management
     spec:
       containers:
-      - image: tarikatac/hallmanagement:0.0.1
+      - image: tarikatac/hallmanagement:latest
         name: service-hall-management
         ports:
           - containerPort: 2129

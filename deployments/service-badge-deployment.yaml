@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-badge
-        image: thomasdevriese/badge:0.0.1
+        image: thomasdevriese/badge:latest
         ports:
         - containerPort: 2124

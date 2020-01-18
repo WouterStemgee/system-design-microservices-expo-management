@@ -1,5 +1,0 @@
-//wouter
-kubectl apply -f service-event-management-deployment.yaml,service-event-reservation-deployment.yaml,service-parking-deployment.yaml,support-eventdb-deployment.yaml,support-eventdb-deployment.yaml,support-kafka-deployment.yaml,support-parkingdb-deployment.yaml,support-web-deployment.yaml,support-zookeeper-deployment.yaml,service-api-gateway-deployment.yaml
-
-//thomas
-kubectl apply -f service-api-gateway-deployment.yaml,service-badge-deployment.yaml,service-food-and-drinks-deployment.yaml,service-ticket-deployment.yaml,support-badgedb-deployment.yaml,support-foodanddrinksdb-deployment.yaml,support-ticketdb-deployment.yaml,support-zookeeper-deployment.yaml,support-kafka-deployment.yaml

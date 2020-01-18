@@ -38,17 +38,10 @@ services:
     ports:
       - 27017:27017
 
-  support-web:
-    image: wouterstemgee/front-end:0.0.1
-    labels:
-      - chaos=immune
-    ports:
-      - 8081:80
-
 # -------------Main services---------------
 
   service-event-reservation:
-    image: wouterstemgee/event-reservation:0.0.1
+    image: wouterstemgee/event-reservation:latest
     links:
       - support-kafka
       - support-zookeeper
@@ -59,7 +52,7 @@ services:
       - service-parking
 
   service-event-management:
-    image: wouterstemgee/event-management:0.0.1
+    image: wouterstemgee/event-management:latest
     links:
       - support-eventdb
       - support-kafka
@@ -70,14 +63,14 @@ services:
       - support-zookeeper
  
   service-parking:
-    image: wouterstemgee/parking:0.0.1
+    image: wouterstemgee/parking:latest
     links:
       - support-parkingdb
     depends_on:
       - support-parkingdb
 
   service-api-gateway:
-    image: wouterstemgee/api-gateway:0.0.1
+    image: wouterstemgee/api-gateway:latest
     links:
       - service-event-management
       - service-event-reservation

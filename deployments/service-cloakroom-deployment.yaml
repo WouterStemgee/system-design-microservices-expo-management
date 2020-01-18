@@ -15,7 +15,7 @@ spec:
         app: service-cloakroom
     spec:
       containers:
-      - image: tarikatac/cloakroom:0.0.1
+      - image: tarikatac/cloakroom:latest
         name: service-cloakroom
         ports:
           - containerPort: 2126
