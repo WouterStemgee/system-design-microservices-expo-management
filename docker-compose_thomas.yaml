@@ -26,33 +26,33 @@ services:
     ports:
       - 5432:5432
 
-  support-badgedb:
-    image: postgres
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=sysdes2
-      - POSTGRES_DB=Badge
-    #command: -p 5433
-    ports:
-      - 5432:5432
+  # support-badgedb:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_USER=root
+  #     - POSTGRES_PASSWORD=sysdes2
+  #     - POSTGRES_DB=Badge
+  #   # command: -p 5433
+  #   ports:
+  #     - 5432:5432
 
-  support-foodanddrinksdb:
-    image: mongo
-    environment:
-      - MONGO_INITDB_DATABASE=foodanddrinks
-      - TZ=Europe/Brussels
-    #command: mongod --port 27018
-    ports:
-      - 27017:27017
+  # support-foodanddrinksdb:
+  #   image: mongo
+  #   environment:
+  #     - MONGO_INITDB_DATABASE=foodanddrinks
+  #     - TZ=Europe/Brussels
+  #   # command: mongod --port 27018
+  #   ports:
+  #     - 27017:27017
 
-  support-web:
-    image: wouterstemgee/front-end:0.0.1
-    build:
-      context: ../front-end
-    labels:
-      - chaos=immune
-    ports:
-      - 8081:80
+  # support-web:
+  #   image: wouterstemgee/front-end:0.0.1
+  #   build:
+  #     context: ../front-end
+  #   labels:
+  #     - chaos=immune
+  #   ports:
+  #     - 8081:80
 
 # -------------Main services---------------
 
@@ -70,39 +70,39 @@ services:
     ports:
       - 2123:2123
 
-  service-badge:
-    build:
-      context: ../badge
-    links:
-      - support-badgedb
-      - support-kafka
-      - support-zookeeper
-    depends_on:
-      - support-badgedb
-      - support-kafka
-      - support-zookeeper
-    ports:
-      - 2124:2124
+  # service-badge:
+  #   build:
+  #     context: ../badge
+  #   links:
+  #     - support-badgedb
+  #     - support-kafka
+  #     - support-zookeeper
+  #   depends_on:
+  #     - support-badgedb
+  #     - support-kafka
+  #     - support-zookeeper
+  #   ports:
+  #     - 2124:2124
 
-  service-food-and-drinks:
-    build:
-      context: ../food-and-drinks
-    links:
-      - support-foodanddrinksdb
-    depends_on:
-      - support-foodanddrinksdb
-    ports:
-      - 2125:2125
+  # service-food-and-drinks:
+  #   build:
+  #     context: ../food-and-drinks
+  #   links:
+  #     - support-foodanddrinksdb
+  #   depends_on:
+  #     - support-foodanddrinksdb
+  #   ports:
+  #     - 2125:2125
 
   service-api-gateway:
     image: wouterstemgee/api-gateway:0.0.1
     links:
       - service-ticket
-      - service-badge
-      - service-food-and-drinks
+      # - service-badge
+      # - service-food-and-drinks
     depends_on:
       - service-ticket
-      - service-badge
-      - service-food-and-drinks
+      # - service-badge
+      # - service-food-and-drinks
     ports:
       - 8080:8080
