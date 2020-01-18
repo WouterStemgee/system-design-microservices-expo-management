@@ -58,6 +58,29 @@ services:
     ports:
       - 27017:27017
 
+  support-cloakroomdb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=cloakroom
+      - TZ=Europe/Brussels
+    command: mongod --port 27017
+
+  support-halldb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Hall
+      - TZ=Europe/Brussels
+
+  support-trackingdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Tracking
+      - TZ=Europe/Brussels
+
 # -------------Main services---------------
 
   service-api-gateway:
@@ -130,3 +153,28 @@ services:
       - support-foodanddrinksdb
     depends_on:
       - support-foodanddrinksdb
+
+  service-tracking:
+    image: tarikatac/tracking:latest
+    links:
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-kafka
+      - support-zookeeper
+  
+  service-hall-management:
+    image: tarikatac/hallmanagement:latest
+    links:
+      - support-halldb
+    depends_on:
+      - support-halldb
+  
+  service-cloakroom:
+    image: tarikatac/cloakroom:latest
+    links:
+      - support-cloakroomdb
+      - service-badge
+    depends_on:
+      - support-cloakroomdb
+      - service-badge
