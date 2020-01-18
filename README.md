@@ -43,7 +43,7 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 - De front-end UI hebben we voor het gemak verpakt in een docker image. Deze kan uitgevoerd worden via het volgende commando:
   - `docker run --name front-end -d -p 80:80 wouterstemgee/front-end:latest`
 - Deze front-end verstuurt alle REST aanvragen naar de API Gateway die dient te luisteren op `localhost:8080`. 
-- Om de API Gateway op de cluster te bereiken is er dus port forwarding vereist.
+- Om de API Gateway op de cluster te bereiken is er dus port forwarding vereist van de cluster naar localhost.
 
 ## Testing
 Aan de hand van onze front-end UI kunnen alle business use cases getest worden.
