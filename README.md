@@ -30,9 +30,9 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 
 ## Deployment
 1. Om alle ClusterIP's en NodePort's in te stellen dient men eerst alle service configuratie bestanden toe te passen op de cluster.
-  - `/services $ kubectl apply -f .`
+  - `user@cluster:~/services$ kubectl apply -f .`
 2. Vervolgens kan men de deployment bestanden toepassen op de cluster.
-  - `/deployments $ kubectl apply -f .`
+  - `user@cluster:~/deployments$ kubectl apply -f .`
 
 ## Testing
 
