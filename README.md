@@ -48,9 +48,4 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 
 ## Testing
 Aan de hand van onze front-end UI kunnen alle business use cases getest worden.
-1. Evenement reservatie aanmaken
-2. Aankomende bezoekers
-3. Weggaande bezoekers
-4. Evenement afbreken
-5. Rampenplan afkondigen
 
