@@ -38,6 +38,15 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 ### Docker-compose
 - Om de services via docker lokaal te deployen kan men via het bestand docker-compose.yaml alle images pullen en opstarten.
   - `docker-compose up -d`
+### Front-end UI
+- De front-end hebben we verpakt in een docker image. Deze front-end verstuurt alle REST aanvragen naar de API Gateway die verwacht wordt op `localhost:8080`.
+
 
 ## Testing
+Aan de hand van onze front-end UI kunnen alle business use cases getest worden.
+1. Evenement reservatie aanmaken
+2. Aankomende bezoekers
+3. Weggaande bezoekers
+4. Evenement afbreken
+5. Rampenplan afkondigen
 
