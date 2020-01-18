@@ -112,8 +112,32 @@ export class HttpService {
   }
 
   // Tracking
-  getProgress() {}
-  updateProgress() {}
+  getProgress(eventId) {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiGatewayUri + '/tracking?eventId='+eventId)
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+  updateProgress(status, eventId) {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiGatewayUri + '/tracking',{status,eventId})
+        .subscribe(
+          result => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
 
   // Ticket
   getTicketAvailability(eventId) {

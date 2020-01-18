@@ -57,6 +57,14 @@ export class AppComponent {
   crItemId = 0;
   crItems = [];
 
+  //tracking
+  trEventId1 = "test-id";
+  trEventId2 = "test-id";
+  trStatus = new FormControl([]);
+  trStatusList = ['ENDED','CREATED'];
+  trEvents = [];
+
+
   constructor(private http: HttpService, private toastr: ToastrService) {
       this.onStartDateChange(this.templateDate.value);
       this.onEndDateChange(this.templateDate.value);
@@ -243,8 +251,44 @@ export class AppComponent {
   }
 
   // =========================== Tracking ===========================
-  getProgress() {}
-  updateProgress() {}
+  getProgress() {
+    this.http.getProgress(this.trEventId1)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+        this.trEvents = result as any[];
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  updateProgress() {
+    this.http.updateProgress(this.trStatus.value,this.trEventId2)
+      .then(result => {
+        this.onAlertEvent.emit({
+          title: 'Success',
+          message: result,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.onAlertEvent.emit({
+          title: 'Error',
+          message: this.error(err),
+          type: 'error'
+        });
+      });
+  }
+  onStatusSelectionChanged(e) {
+    console.log(this.trStatus.value);
+  }
 
   // =========================== Ticket ===========================
   getTicketAvailability() {

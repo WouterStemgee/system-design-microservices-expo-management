@@ -67,7 +67,27 @@
     <br>
     <button mat-raised-button color="primary" (click)="exitParking()">Exit Parking Ticket</button>
   </mat-tab>
-  <mat-tab label="Tracking">Tracking</mat-tab>
+  <mat-tab label="Tracking">
+    <mat-form-field>
+      <input matInput placeholder="eventId" [(ngModel)]="trEventId2">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Status" [formControl]="trStatus" (selectionChange)="onStatusSelectionChanged($event)">
+        <mat-option *ngFor="let status of trStatusList; let i = index" [value]="i">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="updateProgress()">Update event progress</button>
+    <br><br>
+    <mat-form-field>
+      <input matInput placeholder="eventId" [(ngModel)]="trEventId1">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="getProgress()">Get event progress</button>
+    <br>
+    <div *ngFor="let trEvent of trEvents">
+      <mat-label>taskId: {{ trEvent.taskId }}, description: {{ trEvent.description }}, Status: {{ trEvent.status }}, eventId: {{ trEvent.eventId }}</mat-label>
+      <br>
+    </div>
+  </mat-tab>
   <mat-tab label="Ticket">
     <mat-form-field>
         <input matInput placeholder="EventId" [(ngModel)]="eventId">
