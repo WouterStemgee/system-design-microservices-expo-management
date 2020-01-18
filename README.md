@@ -45,7 +45,7 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
   - de front-end UI is dan beschikbaar op `localhost:80`
 - Deze front-end verstuurt alle REST aanvragen naar de API Gateway die dient te luisteren op `localhost:8080`. 
 - Om de API Gateway op de cluster te bereiken is er dus lokale port forwarding vereist.
-  - `ssh -L 8080:<public_cluster_ip>:<cluster_node_port>`
+  - `ssh -L 8080:localhost:<cluster_node_port> <user>@<public_cluster_ip>`
 
 ## Testing
 Aan de hand van onze front-end UI kunnen alle business use cases getest worden.
