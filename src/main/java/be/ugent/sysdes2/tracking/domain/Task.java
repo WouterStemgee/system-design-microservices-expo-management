@@ -18,6 +18,9 @@ public class Task {
     private EventStatus status;
     private String eventId;
 
+    public Task() {
+    }
+
     public Task(String description, EventStatus status, String eventId) {
         this.description = description;
         this.status = status;
