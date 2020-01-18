@@ -95,7 +95,7 @@ services:
       - 2125:2125
 
   service-api-gateway:
-    image: wouterstemgee/api-gateway:0.0.1
+    image: wouterstemgee/api-gateway:latest
     links:
       - service-ticket
       - service-badge

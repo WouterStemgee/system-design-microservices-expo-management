@@ -38,6 +38,32 @@ services:
     ports:
       - 27017:27017
 
+  support-ticketdb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Ticket
+    ports:
+      - 5432:5432
+
+  support-badgedb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Badge
+    ports:
+      - 5432:5432
+
+  support-foodanddrinksdb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=foodanddrinks
+      - TZ=Europe/Brussels
+    ports:
+      - 27017:27017
+
 # -------------Main services---------------
 
   service-event-reservation:
