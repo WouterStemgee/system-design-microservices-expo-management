@@ -25,6 +25,8 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 [Tracking](https://hub.docker.com/r/tarikatac/tracking),
 [Cloakroom](https://hub.docker.com/r/tarikatac/cloakroom)
 
+De services kunnen opnieuw gebuild worden door deze met maven opnieuw te compileren. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository.
+
 ## Deployment
 ## Testing
 
