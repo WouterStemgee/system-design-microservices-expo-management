@@ -19,7 +19,7 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 [API Gateway](https://hub.docker.com/r/wouterstemgee/api-gateway)
 - Elias:
 [Multimedia](https://hub.docker.com/r/ebout/multimedia),
-[Security](https://hub.docker.com/r/ebout/security),
+[Security](https://hub.docker.com/r/ebout/security)
 - Tarik:
 [Hall Management](https://hub.docker.com/r/tarikatac/hallmanagement),
 [Tracking](https://hub.docker.com/r/tarikatac/tracking),
