@@ -3,8 +3,6 @@ services:
 # ------------Support services-------------
   support-zookeeper:
     image: confluentinc/cp-zookeeper
-    labels:
-      - chaos=immune
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
   support-kafka:
@@ -19,8 +17,6 @@ services:
 
   support-parkingdb:
     image: mysql:5.7
-    labels:
-      - chaos=immune
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=sysdes2
@@ -31,8 +27,6 @@ services:
 
   support-eventdb:
     image: mongo
-    labels:
-      - chaos=immune
     environment:
       - TZ=Europe/Brussels
     ports:
@@ -66,6 +60,19 @@ services:
 
 # -------------Main services---------------
 
+  service-api-gateway:
+    image: wouterstemgee/api-gateway:latest
+    links:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    depends_on:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    ports:
+      - 8080:8080
+
   service-event-reservation:
     image: wouterstemgee/event-reservation:latest
     links:
@@ -95,15 +102,31 @@ services:
     depends_on:
       - support-parkingdb
 
-  service-api-gateway:
-    image: wouterstemgee/api-gateway:latest
+  service-ticket:
+    image: thomasdevriese/ticket:latest
     links:
-      - service-event-management
-      - service-event-reservation
-      - service-parking
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
     depends_on:
-      - service-event-management
-      - service-event-reservation
-      - service-parking
-    ports:
-      - 8080:8080
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
+
+  service-badge:
+    image: thomasdevriese/badge:latest
+    links:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+
+  service-food-and-drinks:
+    image: thomasdevriese/food-and-drinks:latest
+    links:
+      - support-foodanddrinksdb
+    depends_on:
+      - support-foodanddrinksdb
