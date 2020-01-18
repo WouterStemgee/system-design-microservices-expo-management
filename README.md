@@ -26,7 +26,7 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 [Cloakroom](https://hub.docker.com/r/tarikatac/cloakroom)
 
 1. De services kunnen opnieuw gebuild worden met Maven: `mvn package -DskipTests`
-2. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository: `docker build -t <image:tag> .`
+2. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository in `/code`: `docker build -t <image:tag> .`
 
 ## Deployment
 1. Om alle ClusterIP's en NodePort's in te stellen dient men eerst alle service configuratie bestanden toe te passen op de cluster.
