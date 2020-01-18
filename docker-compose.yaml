@@ -47,9 +47,6 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=foodanddrinks
       - TZ=Europe/Brussels
-    ports:
-      - 27017:27017
-
 
   support-multimediadb:
     image: mysql:5.7
