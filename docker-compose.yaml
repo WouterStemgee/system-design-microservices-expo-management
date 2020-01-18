@@ -57,6 +57,14 @@ services:
       - TZ=Europe/Brussels
     ports:
       - 27017:27017
+  support-multimediadb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=messageboard
+    ports: 
+      -  3306:3306
 
 # -------------Main services---------------
 
@@ -130,3 +138,23 @@ services:
       - support-foodanddrinksdb
     depends_on:
       - support-foodanddrinksdb
+      
+  service-multimedia:
+    image: ebout/multimedia:latest
+    links:
+      - support-multimediadb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-multimediadb
+      - support-kafka
+      - support-zookeeper
+      
+  service-security:
+    image: ebout/security:latest
+    links:
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-kafka
+      - support-zookeeper
