@@ -29,10 +29,15 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 2. Vervolgens kan men de images opnieuw aanmaken via de Dockerfiles die terug te vinden zijn in de root directory van elke repository in `/code`: `docker build -t <image:tag> .`
 
 ## Deployment
+### Cluster
 1. Om alle ClusterIP's en NodePort's in te stellen dient men eerst alle service configuratie bestanden toe te passen op de cluster.
-  - `user@cluster:~/services$ kubectl apply -f .`
+  - `/services$ kubectl apply -f .`
 2. Vervolgens kan men de deployment bestanden toepassen op de cluster.
-  - `user@cluster:~/deployments$ kubectl apply -f .`
+  - `/deployments$ kubectl apply -f .`
+
+### Docker-compose
+- Om de services via docker lokaal te deployen kan men via het bestand docker-compose.yaml alle images pullen en opstarten.
+  - `docker-compose up -d`
 
 ## Testing
 
