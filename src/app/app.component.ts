@@ -57,11 +57,11 @@ export class AppComponent {
   crItemId = 0;
   crItems = [];
 
-  //tracking
-  trEventId1 = "test-id";
-  trEventId2 = "test-id";
+  // Tracking
+  trEventId1 = 'test-id';
+  trEventId2 = 'test-id';
   trStatus = new FormControl([]);
-  trStatusList = ['ENDED','CREATED'];
+  trStatusList = ['ENDED', 'CREATED'];
   trEvents = [];
 
 
@@ -144,8 +144,6 @@ export class AppComponent {
       console.log(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price);
       this.http.createReservation(this.startDate, this.endDate, this.capacity, this.halls.value, this.visitors, this.price)
         .then(result => {
-          // @ts-ignore
-          this.eventId = result.eventId;
           this.onAlertEvent.emit({
             title: 'Success',
             message: 'Reservation created!',
@@ -270,7 +268,7 @@ export class AppComponent {
       });
   }
   updateProgress() {
-    this.http.updateProgress(this.trStatus.value,this.trEventId2)
+    this.http.updateProgress(this.trStatus.value, this.trEventId2)
       .then(result => {
         this.onAlertEvent.emit({
           title: 'Success',
