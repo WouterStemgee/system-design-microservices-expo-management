@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-ticket
-        image: thomasdevriese/ticket:0.0.1
+        image: thomasdevriese/ticket:latest
         ports:
         - containerPort: 2123

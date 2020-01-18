@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-parking
-        image: wouterstemgee/parking:0.0.1
+        image: wouterstemgee/parking:latest
         ports:
         - containerPort: 2122

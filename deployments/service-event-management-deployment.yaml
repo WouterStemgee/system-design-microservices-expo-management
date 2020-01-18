@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-event-management
-        image: wouterstemgee/event-management:0.0.1
+        image: wouterstemgee/event-management:latest
         ports:
         - containerPort: 2121

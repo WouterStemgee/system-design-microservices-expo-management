@@ -15,7 +15,7 @@ spec:
         app: service-tracking
     spec:
       containers:
-      - image: tarikatac/tracking:0.0.1
+      - image: tarikatac/tracking:latest
         name: service-tracking
         ports:
           - containerPort: 2130

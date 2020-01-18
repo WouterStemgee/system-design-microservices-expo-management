@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: service-event-reservation
-        image: wouterstemgee/event-reservation:0.0.1
+        image: wouterstemgee/event-reservation:latest
         ports:
         - containerPort: 2120
