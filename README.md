@@ -35,12 +35,15 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 2. Vervolgens kan men de deployment bestanden toepassen op de cluster.
   - `/deployments$ kubectl apply -f .`
 
-### Docker-compose
-- Om de services via docker lokaal te deployen kan men via het bestand docker-compose.yaml alle images pullen en opstarten.
+### Optioneel: Docker-compose
+- Om de services lokaal te deployen kan men via het bestand `docker-compose.yaml` alle images pullen en opstarten.
   - `docker-compose up -d`
+  
 ### Front-end UI
-- De front-end hebben we verpakt in een docker image. Deze front-end verstuurt alle REST aanvragen naar de API Gateway die verwacht wordt op `localhost:8080`.
-
+- De front-end UI hebben we voor het gemak verpakt in een docker image. Deze kan uitgevoerd worden via het volgende commando:
+  - `docker run --name front-end -d -p 80:80 wouterstemgee/front-end:latest`
+- Deze front-end verstuurt alle REST aanvragen naar de API Gateway die dient te luisteren op `localhost:8080`. 
+- Om de API Gateway op de cluster te bereiken is er dus port forwarding vereist.
 
 ## Testing
 Aan de hand van onze front-end UI kunnen alle business use cases getest worden.
