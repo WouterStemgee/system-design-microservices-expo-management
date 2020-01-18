@@ -35,7 +35,7 @@ Alle services zijn reeds gebuild en verpakt in een docker image. Deze staan publ
 2. Vervolgens kan men de deployment bestanden toepassen op de cluster.
   - `/deployments$ kubectl apply -f .`
 
-### Optioneel: Docker-compose
+### Optioneel: docker-compose
 - Om de services lokaal te deployen kan men via het bestand `docker-compose.yaml` alle images pullen en opstarten.
   - `docker-compose up -d`
   
