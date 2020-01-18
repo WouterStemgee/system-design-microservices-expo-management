@@ -47,21 +47,14 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=foodanddrinks
       - TZ=Europe/Brussels
-<<<<<<< HEAD
-      
-=======
-    ports:
-      - 27017:27017
+
   support-multimediadb:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=sysdes2
       - MYSQL_DATABASE=messageboard
-    ports: 
-      -  3306:3306
 
->>>>>>> a3ce62f27c4d0ebfdb79f02f843f06b875d51e61
 # -------------Main services---------------
 
   service-api-gateway:
