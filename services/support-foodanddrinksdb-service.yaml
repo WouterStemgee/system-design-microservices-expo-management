@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: support-foodanddrinksdb
-spec:
-  selector:
-    app: support-foodanddrinksdb
-  ports:
-  - port: 27017

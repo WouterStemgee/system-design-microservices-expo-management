@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: service-security
-spec:
-  selector:
-    app: service-security
-  ports:
-  - port: 2128

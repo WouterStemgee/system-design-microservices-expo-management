@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: support-halldb
-spec:
-  selector:
-    app: support-halldb
-  ports:
-  - port: 3306
