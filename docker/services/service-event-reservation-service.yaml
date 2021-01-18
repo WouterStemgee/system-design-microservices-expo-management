@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-event-reservation
+spec:
+  selector:
+    app: service-event-reservation
+  ports:
+  - port: 2120

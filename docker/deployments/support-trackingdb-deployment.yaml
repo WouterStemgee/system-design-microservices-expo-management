@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    chaos: immune
+    app: support-trackingdb
+  name: support-trackingdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-trackingdb
+  template:
+    metadata:
+      labels:
+        chaos: immune
+        app: support-trackingdb
+    spec:
+      containers:
+      - args:
+        - --default-authentication-plugin=mysql_native_password
+        env:
+        - name: MYSQL_DATABASE
+          value: Tracking
+        - name: MYSQL_ROOT_PASSWORD
+          value: sysdes2
+        - name: TZ
+          value: Europe/Brussels
+        image: mysql:5.7
+        name: support-trackingdb
+        ports:
+          - containerPort: 3306

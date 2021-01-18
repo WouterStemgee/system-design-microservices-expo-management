@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-badge
+  labels:
+    app: service-badge
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-badge
+  template:
+    metadata:
+      labels:
+        app: service-badge
+    spec:
+      containers:
+      - name: service-badge
+        image: thomasdevriese/badge:latest
+        ports:
+        - containerPort: 2124

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-api-gateway
+  labels:
+    app: service-api-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-api-gateway
+  template:
+    metadata:
+      labels:
+        app: service-api-gateway
+    spec:
+      containers:
+      - name: service-api-gateway
+        image: wouterstemgee/api-gateway:latest
+        ports:
+        - name: http
+          containerPort: 8080

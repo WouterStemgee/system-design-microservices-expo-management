@@ -1,0 +1,197 @@
+version: "3"
+services:
+# ------------Support services-------------
+  support-zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  support-kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - support-zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=support-zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://support-kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  support-parkingdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Parking
+      - TZ=Europe/Brussels
+
+  support-eventdb:
+    image: mongo
+    environment:
+      - TZ=Europe/Brussels
+
+  support-ticketdb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Ticket
+
+  support-badgedb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=sysdes2
+      - POSTGRES_DB=Badge
+
+  support-foodanddrinksdb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=foodanddrinks
+      - TZ=Europe/Brussels
+
+  support-multimediadb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=messageboard
+
+  support-cloakroomdb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=cloakroom
+      - TZ=Europe/Brussels
+    command: mongod --port 27017
+
+  support-halldb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Hall
+      - TZ=Europe/Brussels
+
+  support-trackingdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=sysdes2
+      - MYSQL_DATABASE=Tracking
+      - TZ=Europe/Brussels
+
+# -------------Main services---------------
+
+  service-api-gateway:
+    image: wouterstemgee/api-gateway:latest
+    links:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    depends_on:
+      - service-event-management
+      - service-event-reservation
+      - service-parking
+    ports:
+      - 8080:8080
+
+  service-event-reservation:
+    image: wouterstemgee/event-reservation:latest
+    links:
+      - support-kafka
+      - support-zookeeper
+      - service-parking
+    depends_on:
+      - support-kafka
+      - support-zookeeper
+      - service-parking
+
+  service-event-management:
+    image: wouterstemgee/event-management:latest
+    links:
+      - support-eventdb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-eventdb
+      - support-kafka
+      - support-zookeeper
+ 
+  service-parking:
+    image: wouterstemgee/parking:latest
+    links:
+      - support-parkingdb
+    depends_on:
+      - support-parkingdb
+
+  service-ticket:
+    image: thomasdevriese/ticket:latest
+    links:
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-ticketdb
+      - support-kafka
+      - support-zookeeper
+
+  service-badge:
+    image: thomasdevriese/badge:latest
+    links:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-badgedb
+      - support-kafka
+      - support-zookeeper
+
+  service-food-and-drinks:
+    image: thomasdevriese/food-and-drinks:latest
+    links:
+      - support-foodanddrinksdb
+    depends_on:
+      - support-foodanddrinksdb
+
+  service-tracking:
+    image: tarikatac/tracking:latest
+    links:
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-kafka
+      - support-zookeeper
+  
+  service-hall-management:
+    image: tarikatac/hallmanagement:latest
+    links:
+      - support-halldb
+    depends_on:
+      - support-halldb
+  
+  service-cloakroom:
+    image: tarikatac/cloakroom:latest
+    links:
+      - support-cloakroomdb
+      - service-badge
+    depends_on:
+      - support-cloakroomdb
+      - service-badge
+      
+  service-multimedia:
+    image: ebout/multimedia:latest
+    links:
+      - support-multimediadb
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-multimediadb
+      - support-kafka
+      - support-zookeeper
+      
+  service-security:
+    image: ebout/security:latest
+    links:
+      - support-kafka
+      - support-zookeeper
+    depends_on:
+      - support-kafka
+      - support-zookeeper

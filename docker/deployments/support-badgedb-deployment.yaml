@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-badgedb
+  labels:
+    app: support-badgedb
+    chaos: immune
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-badgedb
+  template:
+    metadata:
+      labels:
+        app: support-badgedb
+    spec:
+      containers:
+      - name: support-badgedb
+        image: postgres
+        env:
+        - name: POSTGRES_DB
+          value: Badge
+        - name: POSTGRES_USER
+          value: root
+        - name: POSTGRES_PASSWORD
+          value: sysdes2
+        ports:
+        - containerPort: 5432

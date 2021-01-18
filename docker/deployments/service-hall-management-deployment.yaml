@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: service-hall-management
+  name: service-hall-management
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-hall-management
+  template:
+    metadata:
+      labels:
+        app: service-hall-management
+    spec:
+      containers:
+      - image: tarikatac/hallmanagement:latest
+        name: service-hall-management
+        ports:
+          - containerPort: 2129
+

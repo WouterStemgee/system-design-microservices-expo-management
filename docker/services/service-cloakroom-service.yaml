@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-cloakroom
+spec:
+  selector:
+    app: service-hall-cloakroom
+  ports:
+  - port: 2126
