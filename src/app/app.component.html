@@ -1,0 +1,207 @@
+<mat-tab-group color="primary" backgroundColor="accent">
+  <mat-tab label="Event Reservation">
+      <mat-label>Om een evenement te reserveren dient de beschikbaarheid gecontroleerd te worden. Er zijn een maximum van 500 parkeerplaatsen voorzien als capaciteit van de parking, meerdere evenement reserveringen die op dezelfde dag overlappen houden hier dus rekening mee. Verder wordt gecontroleerd of de gewenste hallen beschikbaar zijn op de aangegeven datums.</mat-label>
+      <br>
+      <br>
+      <mat-form-field>
+        <input matInput [matDatepicker]="startDatePicker" placeholder="Event start date" [formControl]="templateDate" (dateChange)="onStartDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [matDatepicker]="endDatePicker" placeholder="Event end date" [formControl]="templateDate" (dateChange)="onEndDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Max. Visitors" [(ngModel)]="visitors">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Ticket Price" [(ngModel)]="price">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Parking Capacity"  [(ngModel)]="capacity">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Halls" [formControl]="halls" multiple (selectionChange)="onHallsSelectionChange($event)">
+          <mat-option *ngFor="let hall of hallList" [value]="hall">{{ hall }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" (click)="getReservationAvailability()">Check Availability</button>
+      <br>
+      <br>
+      <button mat-raised-button color="primary" (click)="createReservation()">Create Reservation</button>
+  </mat-tab>
+  <mat-tab label="Event Management">
+    <mat-label>Er kan informatie opgevraagd worden over een gepland evenement aan de hand van de unieke evenement identificatie. Wanneer een evenement is afgelopen kan deze beëindigd worden zodat de afbraak voortgang opgevolgd kan worden via Tracking.</mat-label>
+    <br>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Event ID" [(ngModel)]="eventId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="getEventInformation()">Request Event Information</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="endEvent()">End Event</button>
+  </mat-tab>
+  <mat-tab label="Parking">
+    <mat-label>Om de parking te betreden dient aan de ingang een nieuw parkeerticket aangevraagd te worden, vervolgens wordt een nieuw parkeerticket aangemaakt. Om de parking te verlaten dient het parkeerticket eerst gevalideerd te worden om vervolgens aan de slagboom de parking met een gevalideerd parkeerticket te verlaten.</mat-label>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="createParkingTicket()">Create Parking Ticket</button>
+    <br>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Ticket ID" [(ngModel)]="parkingTicketId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="validateParkingTicket()">Validate Parking Ticket</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="exitParking()">Exit Parking Ticket</button>
+  </mat-tab>
+  <mat-tab label="Tracking">
+    <mat-form-field>
+      <input matInput placeholder="eventId" [(ngModel)]="trEventId2">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Status" [formControl]="trStatus" (selectionChange)="onStatusSelectionChanged($event)">
+        <mat-option *ngFor="let status of trStatusList; let i = index" [value]="i">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="updateProgress()">Update event progress</button>
+    <br><br>
+    <mat-form-field>
+      <input matInput placeholder="eventId" [(ngModel)]="trEventId1">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="getProgress()">Get event progress</button>
+    <br>
+    <div *ngFor="let trEvent of trEvents">
+      <mat-label>taskId: {{ trEvent.taskId }}, description: {{ trEvent.description }}, Status: {{ trEvent.status }}, eventId: {{ trEvent.eventId }}</mat-label>
+      <br>
+    </div>
+  </mat-tab>
+  <mat-tab label="Ticket">
+    <mat-form-field>
+        <input matInput placeholder="EventId" [(ngModel)]="eventId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="getTicketAvailability()">Check Ticket Availability</button>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="name">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Number of tickets" [(ngModel)]="numberOfTickets">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="buyTicket()">Buy Tickets</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="payTicket()">Pay Tickets</button>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="TicketId" [(ngModel)]="ticketId">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="validateTicket()">Validate Ticket</button>
+  </mat-tab>
+  <mat-tab label="Badge">
+    <mat-form-field>
+        <input matInput placeholder="BadgeId" [(ngModel)]="badgeId">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Amount" [(ngModel)]="amount">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="rechargeBadge()">Recharge badge</button>
+  </mat-tab>
+  <mat-tab label="Food and Drinks">
+      <mat-form-field>
+          <input matInput placeholder="EventId" [(ngModel)]="eventId">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+          <input matInput placeholder="BadgeId" [(ngModel)]="badgeId">
+      </mat-form-field>
+      <br>
+      <mat-label>
+        Products:
+      </mat-label>
+      <br>
+      <br>
+      <div *ngFor="let lineItem of lineItems">
+        <mat-label>ProductId: {{ lineItem.productId }}, amount: {{ lineItem.amount }}</mat-label>
+        <br>
+      </div>
+      <br>
+      <button mat-raised-button color="primary" (click)="createOrder()">Create Order</button>
+  </mat-tab>
+  <mat-tab label="Cloakroom">
+    <mat-form-field>
+      <input matInput placeholder="badgeId" [(ngModel)]="crBadgeId">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="addCloakroomItem()">Add cloakroom item</button>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="itemId" [(ngModel)]="crItemId">
+    </mat-form-field>
+    <button style="margin-left: 10px;" mat-raised-button color="primary" (click)="removeCloakroomItem()">Remove cloakroom item</button>
+    <br>
+    <button mat-raised-button color="primary" (click)="getAllCloakroomItems()">List all cloakroom items</button>
+    <div *ngFor="let crItem of crItems">
+      <mat-label>BadgeId: {{ crItem.badgeId }}, ItemId: {{ crItem.itemId }}</mat-label>
+      <br>
+    </div>
+  </mat-tab>
+  <mat-tab label="Multimedia">
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Message" [(ngModel)]="message">
+    </mat-form-field>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="updateInformationBoards()">Update informationboards!</button>
+	Kijken of het werkt via de database (of fictief informatiebord), er komt geen informatie terug!
+  </mat-tab>
+  <mat-tab label="Security">
+    <br>
+    <br>
+    <mat-radio-group aria-label="Select the type of emergency" [(ngModel)]="type">
+      <mat-radio-button value="FIRE">Fire</mat-radio-button>
+      <br>
+      <mat-radio-button value="NUCLEAR_ATTACK">Nuclear Attack</mat-radio-button>
+      <br>
+      <mat-radio-button value="CO">CO2</mat-radio-button>
+      <br>
+      <mat-radio-button value="MANUAL">Manual Emergency</mat-radio-button>
+      <br>
+    </mat-radio-group>
+    <br>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Severity" [(ngModel)]="severity">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Source" [(ngModel)]="source">
+    </mat-form-field>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="triggerEmergency()">Send Emergency</button>
+	
+	Kijken of het werkt via de database (of fictief informatiebord), er komt geen informatie terug!
+  </mat-tab>
+</mat-tab-group>
